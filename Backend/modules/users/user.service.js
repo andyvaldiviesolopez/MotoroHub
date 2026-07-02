@@ -1,13 +1,15 @@
-const userSchema = require("./user.schema.js")
 const User = require("./user.schema.js")
+const bcrypt = require("bcrypt")
 
 const createUser = async (req) => {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
     const newUser = await User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         birthday: req.body.birthday,
         avatar: req.body.avatar,
         bio: req.body.bio,
