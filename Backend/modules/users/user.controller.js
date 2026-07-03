@@ -2,7 +2,7 @@ const userService = require("./user.service")
 
 const createUser = async (req, res) => {
     try {
-        const newUser = await userService.createUser(req)
+        const newUser = await userService.createUser(req.body)
         res.status(201)
             .send({
                 statusCode: 201,
@@ -20,6 +20,7 @@ const createUser = async (req, res) => {
 }
 
 const getUsers = async (req, res) => {
+    console.log(req.user)
     try {
         const getUsers = await userService.getUsers(req)
         res.status(200)

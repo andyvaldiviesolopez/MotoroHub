@@ -6,13 +6,15 @@ const { liveServer } = require("./config/database")
 
 const PORT = process.env.PORT
 
-const users = require("./modules/users/user.routes")
+const usersRoutes = require("./modules/users/user.routes")
+const authRoutes = require("./modules/auth/auth.routes")
 
 const server = express()
 
 server.use(cors())
 server.use(express.json())
 
-server.use("/", users)
+server.use("/", usersRoutes)
+server.use("/auth", authRoutes)
 
 liveServer(PORT, server)
