@@ -8,6 +8,7 @@ const PORT = process.env.PORT
 
 const usersRoutes = require("./modules/users/user.routes")
 const authRoutes = require("./modules/auth/auth.routes")
+const motorcyclesRoutes = require("./modules/motorcycles/motorcycle.routes")
 
 const server = express()
 
@@ -16,5 +17,6 @@ server.use(express.json())
 
 server.use("/", usersRoutes)
 server.use("/auth", authRoutes)
+server.use("/", motorcyclesRoutes)
 
 liveServer(PORT, server)

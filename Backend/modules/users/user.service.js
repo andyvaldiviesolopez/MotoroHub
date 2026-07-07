@@ -5,15 +5,15 @@ const createUser = async (body) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
     const newUser = await User.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        username: req.body.username,
-        email: req.body.email,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        username: body.username,
+        email: body.email,
         password: hashedPassword,
-        birthday: req.body.birthday,
-        avatar: req.body.avatar,
-        bio: req.body.bio,
-        city: req.body.city
+        birthday: body.birthday,
+        avatar: body.avatar,
+        bio: body.bio,
+        city: body.city
     })
 
     return newUser
