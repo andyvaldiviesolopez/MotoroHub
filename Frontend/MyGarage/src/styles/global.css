@@ -1,0 +1,43 @@
+body{
+    background:#ececec;
+    min-height:100vh;
+}
+
+a{
+    text-decoration:none;
+}
+
+.navbar-brand{
+    font-size:1.5rem;
+}
+
+.display-3{
+    letter-spacing:2px;
+}
+
+.motorcycle-card{
+
+    border:none;
+    border-radius:18px;
+    transition:0.3s;
+
+}
+
+.motorcycle-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.motorcycle-image{
+
+    height:220px;
+    object-fit:cover;
+
+}
+
+.card-title{
+
+    font-weight:bold;
+
+}
