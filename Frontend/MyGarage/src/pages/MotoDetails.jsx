@@ -30,6 +30,10 @@ function MotoDetails() {
     loadMotorcycle();
   }, [id]);
 
+  const handleEdit = () => {
+    navigate(`/garage/edit/${motorcycle._id}`);
+  };
+
   const handleDelete = async () => {
     try {
       setShowModal(false);
@@ -97,43 +101,24 @@ function MotoDetails() {
 
             <div className="col-md-6">
 
-              <p>
-                <strong>Anno:</strong> {motorcycle.year}
-              </p>
+              <p><strong>Anno:</strong> {motorcycle.year}</p>
 
-              <p>
-                <strong>Cilindrata:</strong>{" "}
-                {motorcycle.cilindrata} cc
-              </p>
+              <p><strong>Cilindrata:</strong> {motorcycle.cilindrata} cc</p>
 
-              <p>
-                <strong>Potenza:</strong>{" "}
-                {motorcycle.power} CV
-              </p>
+              <p><strong>Potenza:</strong> {motorcycle.power} CV</p>
 
-              <p>
-                <strong>Chilometri:</strong>{" "}
-                {motorcycle.kilometers.toLocaleString()} km
-              </p>
+              <p><strong>Chilometri:</strong> {motorcycle.kilometers.toLocaleString()} km</p>
 
             </div>
 
             <div className="col-md-6">
 
-              <p>
-                <strong>Colore:</strong>{" "}
-                {motorcycle.color}
-              </p>
+              <p><strong>Colore:</strong> {motorcycle.color}</p>
 
-              <p>
-                <strong>Proprietario:</strong>{" "}
-                {motorcycle.owner.firstName}
-              </p>
+              <p><strong>Proprietario:</strong> {motorcycle.owner.firstName}</p>
 
               {motorcycle.isForSale && (
-                <p>
-                  <strong>Prezzo:</strong> € {motorcycle.price}
-                </p>
+                <p><strong>Prezzo:</strong> € {motorcycle.price}</p>
               )}
 
             </div>
@@ -145,13 +130,19 @@ function MotoDetails() {
           <h5>Descrizione</h5>
 
           <p>
-            {motorcycle.description ||
-              "Nessuna descrizione."}
+            {motorcycle.description || "Nessuna descrizione."}
           </p>
 
           <hr />
 
           <div className="d-flex gap-3">
+
+            <button
+              className="btn btn-warning"
+              onClick={handleEdit}
+            >
+              ✏️ Modifica Moto
+            </button>
 
             <button
               className="btn btn-danger"

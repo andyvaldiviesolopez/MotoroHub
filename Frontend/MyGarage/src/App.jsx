@@ -43,6 +43,14 @@ function App() {
                         <MotoDetails />
                     </ProtectedRoute>
                 } />
+                <Route
+                    path="/garage/edit/:id"
+                    element={
+                        <ProtectedRoute>
+                            <EditMoto />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 
