@@ -8,7 +8,9 @@ import AddMoto from "./pages/AddMoto";
 import EditMoto from "./pages/EditMoto";
 import MotoDetails from "./pages/MotoDetails";
 import NotFound from "./pages/NotFound";
-
+import Profile from "./pages/Profile"
+import EditProfile from "./pages/EditProfile";
+import ChangePassword from "./pages/ChangePassword";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -43,17 +45,32 @@ function App() {
                         <MotoDetails />
                     </ProtectedRoute>
                 } />
+                <Route path="*" element={<NotFound />} />
                 <Route
-                    path="/garage/edit/:id"
+                    path="/profile"
                     element={
                         <ProtectedRoute>
-                            <EditMoto />
+                            <Profile />
                         </ProtectedRoute>
                     }
                 />
-                <Route path="*" element={<NotFound />} />
+                <Route
+                    path="/profile/edit"
+                    element={
+                        <ProtectedRoute>
+                            <EditProfile />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/profile/password"
+                    element={
+                        <ProtectedRoute>
+                            <ChangePassword />
+                        </ProtectedRoute>
+                    }
+                />
             </Routes>
-
             <Footer />
         </>
     );

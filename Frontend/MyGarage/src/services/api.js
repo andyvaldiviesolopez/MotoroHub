@@ -121,3 +121,88 @@ export async function deleteMotorcycle(id) {
 
   return data;
 }
+
+export async function registerUser(userData) {
+
+  const response = await fetch(`${API_URL}/users`, {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify(userData)
+
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data.newUser;
+
+}
+
+export async function getUserById(id) {
+  const response = await fetch(`${API_URL}/users/${id}`, {
+    headers: getAuthHeaders(),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data.getUser;
+}
+
+export async function deleteUser(id) {
+  const response = await fetch(`${API_URL}/users/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
+export async function updateUser(id, userData) {
+  const response = await fetch(`${API_URL}/users/${id}`, {
+    method: "PATCH",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(userData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data.updatedUser;
+}
+
+export async function changePassword(id, passwordData) {
+  const response = await fetch(`${API_URL}/users/${id}/password`, {
+    method: "PATCH",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(passwordData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}

@@ -30,6 +30,10 @@ function Navbar() {
                 Garage
               </Link>
 
+              <Link className="nav-link" to="/profile">
+                Profilo
+              </Link>
+
               <span className="nav-link text-light">
                 Ciao {user.firstName}
               </span>
@@ -54,6 +58,7 @@ function Navbar() {
           )}
 
         </div>
+
       </div>
     </nav>
   );

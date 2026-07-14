@@ -1,21 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import { getUserById, updateUser } from "../services/api";
 
-function Register() {
+function EditProfile() {
   const navigate = useNavigate();
+  const { user, updateLoggedUser } = useAuth();
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     username: "",
     email: "",
-    password: "",
     city: "",
   });
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const data = await getUserById(user.id);
+
+        setFormData({
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          username: data.username || "",
+          email: data.email || "",
+          city: data.city || "",
+        });
+
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+
+    loadUser();
+  }, [user.id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,13 +53,14 @@ function Register() {
     setError("");
 
     try {
-      await registerUser(formData);
 
-      setSuccess("Registrazione completata! Reindirizzamento al login...");
+      const updatedUser = await updateUser(
+        user.id,
+        formData
+      );
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
+      updateLoggedUser(updatedUser);
+      navigate("/profile");
 
     } catch (err) {
       setError(err.message);
@@ -46,10 +68,13 @@ function Register() {
   };
 
   return (
-    <div className="container py-5" style={{ maxWidth: "700px" }}>
+    <div
+      className="container py-5"
+      style={{ maxWidth: "700px" }}
+    >
 
       <h1 className="mb-4 text-center">
-        Registrati
+        Modifica Profilo
       </h1>
 
       {error && (
@@ -58,17 +83,12 @@ function Register() {
         </div>
       )}
 
-      {success && (
-        <div className="alert alert-success">
-          {success}
-        </div>
-      )}
-
       <form onSubmit={handleSubmit}>
 
         <div className="row">
 
           <div className="col-md-6 mb-3">
+
             <label className="form-label">
               Nome
             </label>
@@ -81,9 +101,11 @@ function Register() {
               onChange={handleChange}
               required
             />
+
           </div>
 
           <div className="col-md-6 mb-3">
+
             <label className="form-label">
               Cognome
             </label>
@@ -96,9 +118,11 @@ function Register() {
               onChange={handleChange}
               required
             />
+
           </div>
 
           <div className="col-md-6 mb-3">
+
             <label className="form-label">
               Username
             </label>
@@ -111,9 +135,11 @@ function Register() {
               onChange={handleChange}
               required
             />
+
           </div>
 
           <div className="col-md-6 mb-3">
+
             <label className="form-label">
               Email
             </label>
@@ -126,24 +152,11 @@ function Register() {
               onChange={handleChange}
               required
             />
+
           </div>
 
           <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Password
-            </label>
 
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="col-md-6 mb-3">
             <label className="form-label">
               Città
             </label>
@@ -155,17 +168,26 @@ function Register() {
               value={formData.city}
               onChange={handleChange}
             />
+
           </div>
 
         </div>
 
-        <div className="d-grid mt-4">
+        <div className="d-flex gap-3 mt-4">
 
           <button
             type="submit"
-            className="btn btn-dark btn-lg"
+            className="btn btn-warning"
           >
-            Registrati
+            💾 Salva Modifiche
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => navigate("/profile")}
+          >
+            Annulla
           </button>
 
         </div>
@@ -176,4 +198,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default EditProfile;

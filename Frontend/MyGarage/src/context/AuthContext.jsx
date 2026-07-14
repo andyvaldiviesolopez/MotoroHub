@@ -20,6 +20,25 @@ export function AuthProvider({ children }) {
     localStorage.setItem("token", token);
   };
 
+  const updateLoggedUser = (updatedUser) => {
+
+    const normalizedUser = {
+      id: updatedUser.id || updatedUser._id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      avatar: updatedUser.avatar,
+    };
+
+    setUser(normalizedUser);
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(normalizedUser)
+    );
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -35,6 +54,7 @@ export function AuthProvider({ children }) {
         token,
         login,
         logout,
+        updateLoggedUser,
         isAuthenticated: !!token,
       }}
     >
