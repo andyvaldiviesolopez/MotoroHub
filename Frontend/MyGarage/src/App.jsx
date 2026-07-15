@@ -13,6 +13,7 @@ import EditProfile from "./pages/EditProfile";
 import ChangePassword from "./pages/ChangePassword";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Community from "./pages/Community";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -67,6 +68,14 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <ChangePassword />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/community"
+                    element={
+                        <ProtectedRoute>
+                            <Community />
                         </ProtectedRoute>
                     }
                 />

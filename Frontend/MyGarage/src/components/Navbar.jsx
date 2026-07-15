@@ -23,7 +23,9 @@ function Navbar() {
           <Link className="nav-link" to="/">
             Home
           </Link>
-
+          <Link className="nav-link" to="/community">
+            Community
+          </Link>
           {isAuthenticated ? (
             <>
               <Link className="nav-link" to="/garage">
