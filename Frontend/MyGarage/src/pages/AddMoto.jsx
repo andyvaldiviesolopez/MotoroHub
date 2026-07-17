@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMotorcycle } from "../services/api";
+import brands from "../data/brands";
 
 function AddMoto() {
   const navigate = useNavigate();
@@ -71,14 +72,36 @@ function AddMoto() {
         <div className="row">
 
           <div className="col-md-6 mb-3">
-            <label className="form-label">Marca</label>
-            <input
-              className="form-control"
+
+            <label className="form-label">
+              Marca
+            </label>
+
+            <select
+              className="form-select"
               name="brand"
               value={formData.brand}
               onChange={handleChange}
               required
-            />
+            >
+
+              <option value="">
+                Seleziona una marca
+              </option>
+
+              {brands.map((brand) => (
+
+                <option
+                  key={brand}
+                  value={brand}
+                >
+                  {brand}
+                </option>
+
+              ))}
+
+            </select>
+
           </div>
 
           <div className="col-md-6 mb-3">

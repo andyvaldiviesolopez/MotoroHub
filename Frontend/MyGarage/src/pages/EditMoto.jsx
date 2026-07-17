@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-    getMotorcycleById,
-    updateMotorcycle,
-} from "../services/api";
+import { getMotorcycleById, updateMotorcycle } from "../services/api";
+import brands from "../data/brands";
 
 function EditMoto() {
     const navigate = useNavigate();
@@ -112,13 +110,30 @@ function EditMoto() {
                             Marca
                         </label>
 
-                        <input
-                            className="form-control"
+                        <select
+                            className="form-select"
                             name="brand"
                             value={formData.brand}
                             onChange={handleChange}
                             required
-                        />
+                        >
+
+                            <option value="">
+                                Seleziona una marca
+                            </option>
+
+                            {brands.map((brand) => (
+
+                                <option
+                                    key={brand}
+                                    value={brand}
+                                >
+                                    {brand}
+                                </option>
+
+                            ))}
+
+                        </select>
 
                     </div>
 

@@ -2,12 +2,20 @@ import { useEffect, useState } from "react";
 import { getMotorcycles } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import CommunityCard from "../components/CommunityCard";
+import brands from "../data/brands";
 
 function Community() {
   const { user } = useAuth();
 
   const [motorcycles, setMotorcycles] = useState([]);
+
   const [search, setSearch] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
+
+  const [onlyForSale, setOnlyForSale] = useState(false);
+
+  const hasFilters = search !== "" || selectedBrand !== "" || onlyForSale;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -36,13 +44,18 @@ function Community() {
   }, [user]);
 
   const filteredMotorcycles = motorcycles.filter((motorcycle) => {
-
+    const matchesForSale = !onlyForSale || motorcycle.isForSale;
     const searchText = search.toLowerCase();
 
-    return (
+    const matchesSearch =
       motorcycle.brand.toLowerCase().includes(searchText) ||
-      motorcycle.model.toLowerCase().includes(searchText)
-    );
+      motorcycle.model.toLowerCase().includes(searchText);
+
+    const matchesBrand =
+      selectedBrand === "" ||
+      motorcycle.brand === selectedBrand;
+
+    return (matchesSearch && matchesBrand && matchesForSale);
 
   });
 
@@ -71,23 +84,111 @@ function Community() {
 
         <h1>🏍 Community</h1>
 
-        <p className="text-muted">
+        <p className="text-muted mb-2">
           Esplora tutte le moto della community MyGarage
         </p>
 
+        <span className="badge bg-dark fs-6">
+
+          {filteredMotorcycles.length} di {motorcycles.length} moto visualizzate
+
+        </span>
+
       </div>
 
-      <div className="row justify-content-center mb-5">
+      <div className="card shadow-sm mb-5">
 
-        <div className="col-md-6">
+        <div className="card-body">
 
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="🔍 Cerca marca o modello..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <div className="d-flex justify-content-between align-items-center mb-3">
+
+            <h5 className="mb-0">
+              🔎 Filtri
+            </h5>
+
+            {hasFilters && (
+              <button
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => {
+                  setSearch("");
+                  setSelectedBrand("");
+                  setOnlyForSale(false);
+                }}
+              >
+                Reset
+              </button>
+            )}
+
+          </div>
+
+          <div className="row g-3 align-items-center">
+
+            {/* Ricerca */}
+            <div className="col-lg-6">
+
+              <input
+                type="text"
+                className="form-control"
+                placeholder="🔍 Cerca marca o modello..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+
+            </div>
+
+            {/* Marche */}
+            <div className="col-lg-3">
+
+              <select
+                className="form-select"
+                value={selectedBrand}
+                onChange={(e) => setSelectedBrand(e.target.value)}
+              >
+
+                <option value="">
+                  Tutte le marche
+                </option>
+
+                {brands.map((brand) => (
+
+                  <option
+                    key={brand}
+                    value={brand}
+                  >
+                    {brand}
+                  </option>
+
+                ))}
+
+              </select>
+
+            </div>
+
+            {/* Solo in vendita */}
+            <div className="col-lg-3">
+
+              <div className="form-check form-switch d-flex align-items-center h-100">
+
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="onlyForSale"
+                  checked={onlyForSale}
+                  onChange={(e) => setOnlyForSale(e.target.checked)}
+                />
+
+                <label
+                  className="form-check-label ms-2"
+                  htmlFor="onlyForSale"
+                >
+                  Solo in vendita
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 

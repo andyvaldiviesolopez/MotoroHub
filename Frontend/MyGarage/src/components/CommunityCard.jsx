@@ -20,7 +20,7 @@ function CommunityCard({ motorcycle }) {
 
         <div className="card-body d-flex flex-column">
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center mb-3">
 
             <h5 className="card-title mb-0">
               {motorcycle.brand} {motorcycle.model}
@@ -30,43 +30,54 @@ function CommunityCard({ motorcycle }) {
               className={`badge ${
                 motorcycle.isForSale
                   ? "bg-danger"
-                  : "bg-success"
+                  : "bg-secondary"
               }`}
             >
               {motorcycle.isForSale
-                ? "In vendita"
+                ? "🏷️ In vendita"
                 : "Non in vendita"}
             </span>
 
           </div>
 
+          <div className="row text-center mb-3">
+
+            <div className="col-6 mb-2">
+              <small className="text-muted d-block">📅 Anno</small>
+              <strong>{motorcycle.year}</strong>
+            </div>
+
+            <div className="col-6 mb-2">
+              <small className="text-muted d-block">⚙️ Cilindrata</small>
+              <strong>{motorcycle.cilindrata} cc</strong>
+            </div>
+
+            <div className="col-6">
+              <small className="text-muted d-block">🛣️ Km</small>
+              <strong>{motorcycle.kilometers.toLocaleString()} km</strong>
+            </div>
+
+            <div className="col-6">
+              <small className="text-muted d-block">🎨 Colore</small>
+              <strong>{motorcycle.color}</strong>
+            </div>
+
+          </div>
+
           <hr />
 
-          <p>
-            <strong>👤 Proprietario:</strong>{" "}
-            {motorcycle.owner.firstName}
+          <p className="mb-1">
+            <strong>👤 Proprietario:</strong> {motorcycle.owner.firstName}
           </p>
 
-          <p>
-            <strong>📍 Città:</strong>{" "}
-            {motorcycle.owner.city || "-"}
-          </p>
-
-          <p>
-            <strong>📅 Anno:</strong>{" "}
-            {motorcycle.year}
-          </p>
-
-          <p>
-            <strong>⚙️ Cilindrata:</strong>{" "}
-            {motorcycle.cilindrata} cc
+          <p className="mb-3">
+            <strong>📍 Città:</strong> {motorcycle.owner.city || "-"}
           </p>
 
           {motorcycle.isForSale && (
-            <p>
-              <strong>💰 Prezzo:</strong>{" "}
-              € {motorcycle.price}
-            </p>
+            <div className="alert alert-success py-2 text-center fw-bold">
+              💰 € {motorcycle.price.toLocaleString()}
+            </div>
           )}
 
           <div className="mt-auto">

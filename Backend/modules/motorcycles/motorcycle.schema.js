@@ -5,6 +5,24 @@ const MotorcycleSchema = new mongoose.Schema(
         brand: {
             type: String,
             required: true,
+            enum: [
+                "Aprilia",
+                "Benelli",
+                "BMW",
+                "CFMOTO",
+                "Ducati",
+                "GasGas",
+                "Harley-Davidson",
+                "Honda",
+                "Husqvarna",
+                "Kawasaki",
+                "KTM",
+                "Moto Guzzi",
+                "MV Agusta",
+                "Suzuki",
+                "Triumph",
+                "Yamaha"
+            ]
         },
         model: {
             type: String,
