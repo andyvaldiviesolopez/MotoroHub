@@ -26,6 +26,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    favorites: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "motorcycles",
+        },
+    ],
     birthday: {
         type: Date
     },
@@ -42,6 +48,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ""
     }
+
 }, { timestamps: true, strict: true })
 
 module.exports = mongoose.model("user", UserSchema, "users")

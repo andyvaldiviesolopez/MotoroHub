@@ -186,11 +186,76 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getFavorites = async (req, res) => {
+
+    try {
+
+        const favorites = await userService.getFavorites(
+            req.user.id
+        );
+
+        res.status(200).json(favorites);
+
+    } catch (error) {
+
+        res.status(400).json({
+            message: error.message,
+        });
+
+    }
+
+};
+
+const addFavorite = async (req, res) => {
+
+    try {
+
+        const favorites = await userService.addFavorite(
+            req.user.id,
+            req.params.motorcycleId
+        );
+
+        res.status(200).json(favorites);
+
+    } catch (error) {
+
+        res.status(400).json({
+            message: error.message,
+        });
+
+    }
+
+};
+
+const removeFavorite = async (req, res) => {
+
+    try {
+
+        const favorites = await userService.removeFavorite(
+            req.user.id,
+            req.params.motorcycleId
+        );
+
+        res.status(200).json(favorites);
+
+    } catch (error) {
+
+        res.status(400).json({
+            message: error.message,
+        });
+
+    }
+
+};
+
 module.exports = {
     createUser,
     getUsers,
     getUserById,
     updateUser,
     changePassword,
-    deleteUser
+    deleteUser,
+    getFavorites,
+    addFavorite,
+    removeFavorite
 }

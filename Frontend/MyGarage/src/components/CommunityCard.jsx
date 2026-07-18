@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useFavorites } from "../context/FavoritesContext";
 
 function CommunityCard({ motorcycle }) {
+  const { isFavorite, toggleFavorite } = useFavorites();
   return (
     <div className="col-md-4 mb-4">
       <div className="card h-100 shadow">
@@ -20,23 +22,36 @@ function CommunityCard({ motorcycle }) {
 
         <div className="card-body d-flex flex-column">
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="d-flex justify-content-between align-items-start mb-3">
 
-            <h5 className="card-title mb-0">
-              {motorcycle.brand} {motorcycle.model}
-            </h5>
+            <div>
+              <h5 className="card-title mb-1">
+                {motorcycle.brand} {motorcycle.model}
+              </h5>
 
-            <span
-              className={`badge ${
-                motorcycle.isForSale
+              <span
+                className={`badge ${motorcycle.isForSale
                   ? "bg-danger"
                   : "bg-secondary"
-              }`}
+                  }`}
+              >
+                {motorcycle.isForSale
+                  ? "🏷️ In vendita"
+                  : "Non in vendita"}
+              </span>
+            </div>
+
+            <button
+              className={`btn btn-sm ${isFavorite(motorcycle._id)
+                  ? "btn-outline-danger"
+                  : "btn-outline-secondary"
+                }`}
+              onClick={() => toggleFavorite(motorcycle._id)}
             >
-              {motorcycle.isForSale
-                ? "🏷️ In vendita"
-                : "Non in vendita"}
-            </span>
+              {isFavorite(motorcycle._id)
+                ? "❤️ Rimuovi dai preferiti"
+                : "🤍 Aggiungi ai preferiti"}
+            </button>
 
           </div>
 

@@ -206,3 +206,47 @@ export async function changePassword(id, passwordData) {
 
   return data;
 }
+
+export const getFavorites = async () => {
+    const response = await fetch(`${API_URL}/users/favorites`, {
+        headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+        throw new Error("Errore nel recupero dei preferiti");
+    }
+
+    return response.json();
+};
+
+export const addFavorite = async (motorcycleId) => {
+    const response = await fetch(
+        `${API_URL}/users/favorites/${motorcycleId}`,
+        {
+            method: "POST",
+            headers: getAuthHeaders(),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Errore nell'aggiunta ai preferiti");
+    }
+
+    return response.json();
+};
+
+export const removeFavorite = async (motorcycleId) => {
+    const response = await fetch(
+        `${API_URL}/users/favorites/${motorcycleId}`,
+        {
+            method: "DELETE",
+            headers: getAuthHeaders(),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Errore nella rimozione dai preferiti");
+    }
+
+    return response.json();
+};

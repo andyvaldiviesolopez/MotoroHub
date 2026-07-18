@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon main.js",
-    "start":"node main.js"
+    "dev": "nodemon main.js",
+    "start": "node main.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bootstrap-icons": "^1.13.1",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMotorcycle } from "../services/api";
 import brands from "../data/brands";
+import motorcycleData from "../data/motorcycleData";
 
 function AddMoto() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function AddMoto() {
     e.preventDefault();
 
     try {
-      const motorcycleData = {
+      const motorcycle = {
         ...formData,
         year: Number(formData.year),
         cilindrata: Number(formData.cilindrata),
@@ -48,7 +49,7 @@ function AddMoto() {
           : null,
       };
 
-      await createMotorcycle(motorcycleData);
+      await createMotorcycle(motorcycle);
 
       navigate("/garage");
     } catch (err) {
@@ -71,6 +72,8 @@ function AddMoto() {
 
         <div className="row">
 
+
+          {/* Marca */}
           <div className="col-md-6 mb-3">
 
             <label className="form-label">
@@ -81,7 +84,13 @@ function AddMoto() {
               className="form-select"
               name="brand"
               value={formData.brand}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  brand: e.target.value,
+                  model: "",
+                })
+              }
               required
             >
 
@@ -104,15 +113,42 @@ function AddMoto() {
 
           </div>
 
+          {/* Modello */}
           <div className="col-md-6 mb-3">
-            <label className="form-label">Modello</label>
-            <input
-              className="form-control"
+
+            <label className="form-label">
+              Modello
+            </label>
+
+            <select
+              className="form-select"
               name="model"
               value={formData.model}
               onChange={handleChange}
+              disabled={!formData.brand}
               required
-            />
+            >
+
+              <option value="">
+                {formData.brand
+                  ? "Seleziona un modello"
+                  : "Prima scegli una marca"}
+              </option>
+
+              {formData.brand &&
+                motorcycleData[formData.brand].map((model) => (
+
+                  <option
+                    key={model}
+                    value={model}
+                  >
+                    {model}
+                  </option>
+
+                ))}
+
+            </select>
+
           </div>
 
           <div className="col-md-6 mb-3">

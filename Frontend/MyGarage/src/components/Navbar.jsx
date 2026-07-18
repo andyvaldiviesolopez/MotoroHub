@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useFavorites } from "../context/FavoritesContext";
 
 function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
+  const { favorites } = useFavorites();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -30,6 +32,10 @@ function Navbar() {
             <>
               <Link className="nav-link" to="/garage">
                 Garage
+              </Link>
+
+              <Link className="nav-link" to="/favorites">
+               Preferiti ({favorites.length})
               </Link>
 
               <Link className="nav-link" to="/profile">

@@ -14,6 +14,7 @@ import ChangePassword from "./pages/ChangePassword";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Community from "./pages/Community";
+import Favorites from "./pages/Favorites";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -76,6 +77,14 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <Community />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/favorites"
+                    element={
+                        <ProtectedRoute>
+                            <Favorites />
                         </ProtectedRoute>
                     }
                 />

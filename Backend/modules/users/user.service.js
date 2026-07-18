@@ -1,4 +1,5 @@
 const User = require("./user.schema.js")
+const Motorcycle = require("../motorcycles/motorcycle.schema.js");
 const bcrypt = require("bcrypt")
 
 const createUser = async (body) => {
@@ -106,11 +107,72 @@ const deleteUser = async (id) => {
     return deleteUser
 }
 
+const getFavorites = async (userId) => {
+
+    const user = await User.findById(userId)
+        .populate("favorites");
+
+    if (!user) {
+        throw new Error("Utente non trovato");
+    }
+
+    return user.favorites;
+};
+
+const addFavorite = async (userId, motorcycleId) => {
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("Utente non trovato");
+    }
+
+    const motorcycle = await Motorcycle.findById(motorcycleId);
+
+    if (!motorcycle) {
+        throw new Error("Moto non trovata");
+    }
+
+    const alreadyFavorite = user.favorites.some(
+        favorite => favorite.toString() === motorcycleId
+    );
+
+    if (alreadyFavorite) {
+        throw new Error("Moto già nei preferiti");
+    }
+
+    user.favorites.push(motorcycleId);
+
+    await user.save();
+
+    return user.favorites;
+};
+
+const removeFavorite = async (userId, motorcycleId) => {
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("Utente non trovato");
+    }
+
+    user.favorites = user.favorites.filter(
+        (favorite) => favorite.toString() !== motorcycleId
+    );
+
+    await user.save();
+
+    return user.favorites;
+};
+
 module.exports = {
     createUser,
     getUsers,
     getUserById,
     updateUser,
     changePassword,
-    deleteUser
+    deleteUser,
+    getFavorites,
+    addFavorite,
+    removeFavorite
 }

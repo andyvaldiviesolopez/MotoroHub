@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMotorcycleById, updateMotorcycle } from "../services/api";
 import brands from "../data/brands";
+import motorcycleData from "../data/motorcycleData";
 
 function EditMoto() {
     const navigate = useNavigate();
@@ -104,6 +105,7 @@ function EditMoto() {
 
                 <div className="row">
 
+                    {/* Marca */}
                     <div className="col-md-6 mb-3">
 
                         <label className="form-label">
@@ -114,7 +116,13 @@ function EditMoto() {
                             className="form-select"
                             name="brand"
                             value={formData.brand}
-                            onChange={handleChange}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    brand: e.target.value,
+                                    model: "",
+                                })
+                            }
                             required
                         >
 
@@ -137,19 +145,41 @@ function EditMoto() {
 
                     </div>
 
+                    {/* Modello */}
                     <div className="col-md-6 mb-3">
 
                         <label className="form-label">
                             Modello
                         </label>
 
-                        <input
-                            className="form-control"
+                        <select
+                            className="form-select"
                             name="model"
                             value={formData.model}
                             onChange={handleChange}
+                            disabled={!formData.brand}
                             required
-                        />
+                        >
+
+                            <option value="">
+                                {formData.brand
+                                    ? "Seleziona un modello"
+                                    : "Prima scegli una marca"}
+                            </option>
+
+                            {formData.brand &&
+                                motorcycleData[formData.brand].map((model) => (
+
+                                    <option
+                                        key={model}
+                                        value={model}
+                                    >
+                                        {model}
+                                    </option>
+
+                                ))}
+
+                        </select>
 
                     </div>
 
