@@ -71,11 +71,31 @@ const deleteMotorcycle = async (id, userId) => {
     return deletedMotorcycle
 }
 
+const uploadMotorcycleImage = async (id, userId, imageUrl) => {
+
+    const motorcycle = await Motorcycle.findById(id);
+
+    if (!motorcycle) {
+        throw new Error("Moto non trovata");
+    }
+
+    if (motorcycle.owner.toString() !== userId) {
+        throw new Error("Non sei autorizzato");
+    }
+
+    motorcycle.image = imageUrl;
+
+    await motorcycle.save();
+
+    return motorcycle;
+};
+
 module.exports = {
     createMotorcycle,
     getMotorcycles,
     getMotorcycleById,
     updateMotorcycle,
     deleteMotorcycle,
-    getMyMotorcycles
+    getMyMotorcycles,
+    uploadMotorcycleImage
 }

@@ -2,6 +2,9 @@ const express = require("express")
 const users = express.Router()
 const userController = require("./user.controller")
 const verifyJWT = require("../middleware/verifyJWT")
+const upload = require("../middleware/multer");
+
+users.patch("/users/me/avatar",verifyJWT,upload.single("avatar"),userController.uploadAvatar);
 
 users.post("/users", userController.createUser)
 users.post("/users/favorites/:motorcycleId",verifyJWT, userController.addFavorite)

@@ -250,3 +250,49 @@ export const removeFavorite = async (motorcycleId) => {
 
     return response.json();
 };
+
+export const uploadMotorcycleImage = async (id, image) => {
+
+    const formData = new FormData();
+
+    formData.append("image", image);
+
+    const response = await fetch(`${API_URL}/motorcycles/${id}/image`, {
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+};
+
+export const uploadAvatar = async (image) => {
+
+    const formData = new FormData();
+
+    formData.append("avatar", image);
+
+    const response = await fetch(`${API_URL}/users/me/avatar`, {
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data.user;
+};

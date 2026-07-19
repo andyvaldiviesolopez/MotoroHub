@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   getMotorcycleById,
   deleteMotorcycle,
@@ -9,6 +10,7 @@ import ConfirmModal from "../components/ConfirmModal";
 function MotoDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [motorcycle, setMotorcycle] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -61,6 +63,9 @@ function MotoDetails() {
       </div>
     );
   }
+
+  const isOwner =
+    motorcycle?.owner?._id === user?.id;
 
   return (
     <div className="container py-5">
@@ -135,23 +140,25 @@ function MotoDetails() {
 
           <hr />
 
-          <div className="d-flex gap-3">
+          {isOwner && (
+            <div className="d-flex gap-3">
 
-            <button
-              className="btn btn-warning"
-              onClick={handleEdit}
-            >
-              ✏️ Modifica Moto
-            </button>
+              <button
+                className="btn btn-warning"
+                onClick={handleEdit}
+              >
+                ✏️ Modifica Moto
+              </button>
 
-            <button
-              className="btn btn-danger"
-              onClick={() => setShowModal(true)}
-            >
-              🗑 Elimina Moto
-            </button>
+              <button
+                className="btn btn-danger"
+                onClick={() => setShowModal(true)}
+              >
+                🗑 Elimina Moto
+              </button>
 
-          </div>
+            </div>
+          )}
 
         </div>
 

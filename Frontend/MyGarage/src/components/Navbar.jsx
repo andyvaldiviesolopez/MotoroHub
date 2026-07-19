@@ -30,28 +30,76 @@ function Navbar() {
           </Link>
           {isAuthenticated ? (
             <>
-              <Link className="nav-link" to="/garage">
-                Garage
-              </Link>
 
-              <Link className="nav-link" to="/favorites">
-               Preferiti ({favorites.length})
-              </Link>
+              <div className="dropdown ms-3">
 
-              <Link className="nav-link" to="/profile">
-                Profilo
-              </Link>
+                <button
+                  className="btn btn-dark dropdown-toggle d-flex align-items-center border-0"
+                  data-bs-toggle="dropdown"
+                >
 
-              <span className="nav-link text-light">
-                Ciao {user.firstName}
-              </span>
+                  <img
+                    src={user.avatar}
+                    alt={user.firstName}
+                    width="38"
+                    height="38"
+                    className="rounded-circle me-2"
+                    style={{ objectFit: "cover" }}
+                  />
 
-              <button
-                className="btn btn-outline-light ms-2"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+                  <span>
+                    Ciao {user.firstName}
+                  </span>
+
+                </button>
+
+                <ul className="dropdown-menu dropdown-menu-end">
+
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="/profile"
+                    >
+                      👤 Profilo
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="/garage"
+                    >
+                      🏍 Garage
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="/favorites"
+                    >
+                      ❤️ Preferiti
+                    </Link>
+                  </li>
+
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+
+                  <li>
+
+                    <button
+                      className="dropdown-item text-danger"
+                      onClick={handleLogout}
+                    >
+                      🚪 Logout
+                    </button>
+
+                  </li>
+
+                </ul>
+
+              </div>
             </>
           ) : (
             <>

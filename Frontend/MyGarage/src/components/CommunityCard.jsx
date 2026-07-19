@@ -31,20 +31,20 @@ function CommunityCard({ motorcycle }) {
 
               <span
                 className={`badge ${motorcycle.isForSale
-                  ? "bg-danger"
-                  : "bg-secondary"
+                    ? "bg-success"
+                    : "bg-secondary"
                   }`}
               >
                 {motorcycle.isForSale
-                  ? "🏷️ In vendita"
-                  : "Non in vendita"}
+                  ? "💰 In vendita"
+                  : "🔒 Non in vendita"}
               </span>
             </div>
 
             <button
               className={`btn btn-sm ${isFavorite(motorcycle._id)
-                  ? "btn-outline-danger"
-                  : "btn-outline-secondary"
+                ? "btn-outline-danger"
+                : "btn-outline-secondary"
                 }`}
               onClick={() => toggleFavorite(motorcycle._id)}
             >
@@ -81,13 +81,17 @@ function CommunityCard({ motorcycle }) {
 
           <hr />
 
-          <p className="mb-1">
-            <strong>👤 Proprietario:</strong> {motorcycle.owner.firstName}
-          </p>
+          <div className="mb-3">
 
-          <p className="mb-3">
-            <strong>📍 Città:</strong> {motorcycle.owner.city || "-"}
-          </p>
+            <p className="mb-1">
+              👤 <span className="fw-semibold">@{motorcycle.owner.username}</span>
+            </p>
+
+            <p className="mb-0 text-muted">
+              📍 {motorcycle.owner.city || "-"}
+            </p>
+
+          </div>
 
           {motorcycle.isForSale && (
             <div className="alert alert-success py-2 text-center fw-bold">

@@ -165,6 +165,22 @@ const removeFavorite = async (userId, motorcycleId) => {
     return user.favorites;
 };
 
+const uploadAvatar = async (userId, avatarUrl) => {
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        throw new Error("Utente non trovato");
+    }
+
+    user.avatar = avatarUrl;
+
+    await user.save();
+
+    return user;
+};
+
+
 module.exports = {
     createUser,
     getUsers,
@@ -174,5 +190,6 @@ module.exports = {
     deleteUser,
     getFavorites,
     addFavorite,
-    removeFavorite
+    removeFavorite,
+    uploadAvatar
 }

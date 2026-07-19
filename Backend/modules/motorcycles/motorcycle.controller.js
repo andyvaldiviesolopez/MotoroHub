@@ -171,11 +171,51 @@ const deleteMotorcycle = async (req, res) => {
     }
 }
 
+const uploadMotorcycleImage = async (req, res) => {
+    try {
+
+        const motorcycle = await motorcycleService.uploadMotorcycleImage(
+            req.params.id,
+            req.user.id,
+            req.file.path
+        );
+
+        res.status(200).send({
+            statusCode: 200,
+            message: "Immagine caricata con successo!",
+            motorcycle
+        });
+
+    } catch (error) {
+
+        if (error.message === "Moto non trovata") {
+            return res.status(404).send({
+                statusCode: 404,
+                message: error.message
+            });
+        }
+
+        if (error.message === "Non sei autorizzato") {
+            return res.status(403).send({
+                statusCode: 403,
+                message: error.message
+            });
+        }
+
+        res.status(500).send({
+            statusCode: 500,
+            message: error.message
+        });
+
+    }
+};
+
 module.exports = {
     createMotorcycle,
     getMotorcycles,
     getMotorcycleById,
     updateMotorcycle,
     deleteMotorcycle,
-    getMyMotorcycles
+    getMyMotorcycles,
+    uploadMotorcycleImage
 }

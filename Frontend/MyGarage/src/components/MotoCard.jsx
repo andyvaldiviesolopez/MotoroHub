@@ -26,7 +26,9 @@ function MotoCard({ motorcycle }) {
         <h6 className="text-secondary mb-3">
           {motorcycle.model}
         </h6>
-
+        <p className="text-muted mb-3">
+          👤 <strong>@{motorcycle.owner?.username}</strong>
+        </p>
         <p className="mb-1">
           📅 {motorcycle.year}
         </p>

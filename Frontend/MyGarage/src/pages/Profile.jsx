@@ -132,12 +132,14 @@ function Profile() {
             >
               ✏️ Modifica Profilo
             </button>
+
             <button
               className="btn btn-dark"
               onClick={() => navigate("/profile/password")}
             >
               🔒 Cambia Password
             </button>
+
             <button
               className="btn btn-danger"
               onClick={() => setShowModal(true)}

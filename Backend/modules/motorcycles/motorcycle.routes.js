@@ -3,11 +3,14 @@ const motorcycles = express.Router()
 
 const motorcycleController = require("./motorcycle.controller")
 const verifyJWT = require("../middleware/verifyJWT")
+const upload = require("../middleware/multer");
+
+motorcycles.patch("/motorcycles/:id/image",verifyJWT,upload.single("image"),motorcycleController.uploadMotorcycleImage);
 
 motorcycles.post("/motorcycles", verifyJWT, motorcycleController.createMotorcycle)
 
 motorcycles.get("/motorcycles", verifyJWT, motorcycleController.getMotorcycles)
-motorcycles.get("/motorcycles/me",verifyJWT,motorcycleController.getMyMotorcycles
+motorcycles.get("/motorcycles/me", verifyJWT, motorcycleController.getMyMotorcycles
 )
 motorcycles.get("/motorcycles/:id", verifyJWT, motorcycleController.getMotorcycleById)
 

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 import {
   getFavorites,
   addFavorite,
@@ -10,9 +11,7 @@ const FavoritesContext = createContext();
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    loadFavorites();
-  }, []);
+  const { user } = useAuth();
 
   const loadFavorites = async () => {
     try {
@@ -22,6 +21,14 @@ export const FavoritesProvider = ({ children }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      loadFavorites();
+    } else {
+      setFavorites([]);
+    }
+  }, [user]);
 
   const isFavorite = (motorcycleId) => {
     return favorites.some(
@@ -33,11 +40,13 @@ export const FavoritesProvider = ({ children }) => {
     try {
       if (isFavorite(motorcycleId)) {
         await removeFavorite(motorcycleId);
+
         setFavorites((prev) =>
           prev.filter((m) => m._id !== motorcycleId)
         );
       } else {
         await addFavorite(motorcycleId);
+
         await loadFavorites();
       }
     } catch (error) {
