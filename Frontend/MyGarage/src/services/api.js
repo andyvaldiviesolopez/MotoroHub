@@ -70,15 +70,19 @@ export async function getMotorcycleById(id) {
   return data.motorcycle;
 }
 
-export async function createMotorcycle(motorcycleData) {
+export async function createMotorcycle(formData) {
+
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${API_URL}/motorcycles`, {
 
     method: "POST",
 
-    headers: getAuthHeaders(),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
 
-    body: JSON.stringify(motorcycleData)
+    body: formData,
 
   });
 
@@ -122,17 +126,13 @@ export async function deleteMotorcycle(id) {
   return data;
 }
 
-export async function registerUser(userData) {
+export async function registerUser(formData) {
 
   const response = await fetch(`${API_URL}/users`, {
 
     method: "POST",
 
-    headers: {
-      "Content-Type": "application/json"
-    },
-
-    body: JSON.stringify(userData)
+    body: formData
 
   });
 

@@ -1,19 +1,31 @@
+import "../styles/footer.css";
+
 function Footer() {
-
     return (
+        <footer className="motorohub-footer">
 
-        <footer className="bg-dark text-white text-center py-4 mt-5">
+            <div className="container">
 
-            <p className="mb-0">
+                <h5 className="footer-logo">
+                    Motoro<span>Hub</span>
+                </h5>
 
-                MotoroHub © 2026
+                <p className="footer-description">
+                    La community dedicata agli appassionati di moto.
+                    Crea il tuo garage, condividi le tue passioni e scopri
+                    le moto degli altri utenti.
+                </p>
 
-            </p>
+                <div className="footer-divider"></div>
+
+                <p className="footer-copy">
+                    © 2026 MotoroHub - Tutti i diritti riservati.
+                </p>
+
+            </div>
 
         </footer>
-
     );
-
 }
 
 export default Footer;

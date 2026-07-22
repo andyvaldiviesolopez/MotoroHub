@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import brands from "../data/brands";
 import motorcycleData from "../data/motorcycleData";
+
 import { getMotorcycleById, updateMotorcycle, uploadMotorcycleImage, } from "../services/api";
 
+import "../styles/form.css";
+
 function EditMoto() {
+
     const navigate = useNavigate();
     const { id } = useParams();
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [preview, setPreview] = useState("");
 
     const [formData, setFormData] = useState({
+
         brand: "",
         model: "",
         year: "",
@@ -22,16 +29,21 @@ function EditMoto() {
         description: "",
         isForSale: false,
         price: "",
+
     });
 
     const [error, setError] = useState("");
 
     useEffect(() => {
+
         async function loadMotorcycle() {
+
             try {
+
                 const motorcycle = await getMotorcycleById(id);
 
                 setFormData({
+
                     brand: motorcycle.brand || "",
                     model: motorcycle.model || "",
                     year: motorcycle.year || "",
@@ -43,24 +55,38 @@ function EditMoto() {
                     description: motorcycle.description || "",
                     isForSale: motorcycle.isForSale || false,
                     price: motorcycle.price || "",
+
                 });
+
                 setPreview(motorcycle.image || "");
+
             } catch (err) {
+
                 setError(err.message);
+
             }
+
         }
 
         loadMotorcycle();
+
     }, [id]);
 
     const handleChange = (e) => {
+
         const { name, value, type, checked } = e.target;
 
         setFormData((prev) => ({
+
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: type === "checkbox"
+                ? checked
+                : value,
+
         }));
+
     };
+
     const handleImageChange = (e) => {
 
         const file = e.target.files[0];
@@ -70,323 +96,432 @@ function EditMoto() {
         setSelectedImage(file);
 
         setPreview(URL.createObjectURL(file));
+
     };
+
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         try {
-            const motorcycleData = {
+
+            const motorcycle = {
+
                 ...formData,
+
                 year: Number(formData.year),
                 cilindrata: Number(formData.cilindrata),
+
                 power: formData.power
                     ? Number(formData.power)
                     : undefined,
+
                 kilometers: formData.kilometers
                     ? Number(formData.kilometers)
                     : 0,
+
                 price: formData.isForSale
                     ? Number(formData.price)
                     : null,
+
             };
 
-            await updateMotorcycle(id, motorcycleData);
+            await updateMotorcycle(id, motorcycle);
+
             if (selectedImage) {
+
                 await uploadMotorcycleImage(id, selectedImage);
+
             }
+
             navigate("/garage");
 
         } catch (err) {
+
             setError(err.message);
+
         }
+
     };
 
     return (
-        <div className="container py-5">
 
-            <h1 className="mb-4">
-                Modifica Moto
-            </h1>
+        <div className="add-page">
 
-            {error && (
-                <div className="alert alert-danger">
-                    {error}
-                </div>
-            )}
+            <div className="container py-5">
 
-            <form onSubmit={handleSubmit}>
+                <div className="add-card fade-up">
 
-                <div className="row">
+                    <div className="add-header">
 
-                    {/* Marca */}
-                    <div className="col-md-6 mb-3">
+                        <h1>
 
-                        <label className="form-label">
-                            Marca
-                        </label>
+                            Modifica <span>Moto</span>
 
-                        <select
-                            className="form-select"
-                            name="brand"
-                            value={formData.brand}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    brand: e.target.value,
-                                    model: "",
-                                })
-                            }
-                            required
-                        >
+                        </h1>
 
-                            <option value="">
-                                Seleziona una marca
-                            </option>
+                        <p>
 
-                            {brands.map((brand) => (
+                            Aggiorna le informazioni della tua moto.
 
-                                <option
-                                    key={brand}
-                                    value={brand}
-                                >
-                                    {brand}
-                                </option>
-
-                            ))}
-
-                        </select>
+                        </p>
 
                     </div>
 
-                    {/* Modello */}
-                    <div className="col-md-6 mb-3">
+                    {error && (
 
-                        <label className="form-label">
-                            Modello
-                        </label>
+                        <div className="alert alert-danger">
 
-                        <select
-                            className="form-select"
-                            name="model"
-                            value={formData.model}
-                            onChange={handleChange}
-                            disabled={!formData.brand}
-                            required
-                        >
+                            {error}
 
-                            <option value="">
-                                {formData.brand
-                                    ? "Seleziona un modello"
-                                    : "Prima scegli una marca"}
-                            </option>
+                        </div>
 
-                            {formData.brand &&
-                                motorcycleData[formData.brand].map((model) => (
+                    )}
 
-                                    <option
-                                        key={model}
-                                        value={model}
-                                    >
-                                        {model}
-                                    </option>
+                    <form onSubmit={handleSubmit}>
 
-                                ))}
+                        <div className="image-preview-wrapper">
 
-                        </select>
+                            {preview ? (
 
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-
-                        <label className="form-label">
-                            Anno
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            name="year"
-                            value={formData.year}
-                            onChange={handleChange}
-                            required
-                        />
-
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-
-                        <label className="form-label">
-                            Cilindrata (cc)
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            name="cilindrata"
-                            value={formData.cilindrata}
-                            onChange={handleChange}
-                            required
-                        />
-
-                    </div>
-                    <div className="col-md-6 mb-3">
-
-                        <label className="form-label">
-                            Potenza (CV)
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            name="power"
-                            value={formData.power}
-                            onChange={handleChange}
-                        />
-
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-
-                        <label className="form-label">
-                            Chilometri
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            name="kilometers"
-                            value={formData.kilometers}
-                            onChange={handleChange}
-                        />
-
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-
-                        <label className="form-label">
-                            Colore
-                        </label>
-
-                        <input
-                            className="form-control"
-                            name="color"
-                            value={formData.color}
-                            onChange={handleChange}
-                        />
-
-                    </div>
-
-                    <div className="col-12 mb-4">
-
-                        <label className="form-label">
-                            Foto Moto
-                        </label>
-
-                        {preview && (
-                            <div className="mb-3">
                                 <img
                                     src={preview}
                                     alt="Anteprima"
-                                    className="img-fluid rounded shadow"
-                                    style={{
-                                        maxHeight: "250px",
-                                        objectFit: "cover"
-                                    }}
+                                    className="preview-image"
                                 />
+
+                            ) : (
+
+                                <div className="empty-preview">
+
+                                    <i className="bi bi-image"></i>
+
+                                    <p>
+
+                                        Nessuna immagine
+
+                                    </p>
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+                        <h4 className="section-title">
+
+                            Informazioni principali
+
+                        </h4>
+
+                        <div className="row">
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Marca
+
+                                </label>
+
+                                <select
+                                    className="form-select"
+                                    name="brand"
+                                    value={formData.brand}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            brand: e.target.value,
+                                            model: "",
+                                        })
+                                    }
+                                    required
+                                >
+
+                                    <option value="">
+
+                                        Seleziona una marca
+
+                                    </option>
+
+                                    {brands.map((brand) => (
+
+                                        <option
+                                            key={brand}
+                                            value={brand}
+                                        >
+
+                                            {brand}
+
+                                        </option>
+
+                                    ))}
+
+                                </select>
+
                             </div>
-                        )}
 
-                        <input
-                            type="file"
-                            accept="image/*"
-                            className="form-control"
-                            onChange={handleImageChange}
-                        />
+                            <div className="col-md-6 mb-4">
 
-                    </div>
+                                <label className="form-label">
+
+                                    Modello
+
+                                </label>
+
+                                <select
+                                    className="form-select"
+                                    name="model"
+                                    value={formData.model}
+                                    onChange={handleChange}
+                                    disabled={!formData.brand}
+                                    required
+                                >
+
+                                    <option value="">
+
+                                        {formData.brand
+                                            ? "Seleziona un modello"
+                                            : "Prima scegli una marca"}
+
+                                    </option>
+
+                                    {formData.brand &&
+                                        motorcycleData[formData.brand].map((model) => (
+
+                                            <option
+                                                key={model}
+                                                value={model}
+                                            >
+
+                                                {model}
+
+                                            </option>
+
+                                        ))}
+
+                                </select>
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Anno
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="year"
+                                    value={formData.year}
+                                    onChange={handleChange}
+                                    required
+                                />
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Cilindrata (cc)
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="cilindrata"
+                                    value={formData.cilindrata}
+                                    onChange={handleChange}
+                                    required
+                                />
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Potenza (CV)
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="power"
+                                    value={formData.power}
+                                    onChange={handleChange}
+                                />
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Chilometri
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="kilometers"
+                                    value={formData.kilometers}
+                                    onChange={handleChange}
+                                />
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Colore
+
+                                </label>
+
+                                <input
+                                    className="form-control"
+                                    name="color"
+                                    value={formData.color}
+                                    onChange={handleChange}
+                                />
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Immagine
+
+                                </label>
+
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
+
+                            </div>
+
+                        </div>
+
+                        <h4 className="section-title">
+
+                            Informazioni aggiuntive
+
+                        </h4>
+
+                        <div className="mb-4">
+
+                            <label className="form-label">
+
+                                Descrizione
+
+                            </label>
+
+                            <textarea
+                                rows="6"
+                                className="form-control"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                            />
+
+                        </div>
+                        <div className="sale-box">
+
+                            <div className="form-check form-switch">
+
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="isForSale"
+                                    checked={formData.isForSale}
+                                    onChange={handleChange}
+                                    id="saleCheck"
+                                />
+
+                                <label
+                                    className="form-check-label"
+                                    htmlFor="saleCheck"
+                                >
+
+                                    Metti questa moto in vendita
+
+                                </label>
+
+                            </div>
+
+                            {formData.isForSale && (
+
+                                <div className="mt-4">
+
+                                    <label className="form-label">
+
+                                        Prezzo (€)
+
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        name="price"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                        required
+                                    />
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+                        <div className="d-flex gap-3 flex-wrap">
+
+                            <button
+                                type="submit"
+                                className="btn btn-danger add-button"
+                            >
+
+                                <i className="bi bi-check-circle me-2"></i>
+
+                                Salva modifiche
+
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn btn-outline-secondary add-button"
+                                onClick={() => navigate("/garage")}
+                            >
+
+                                <i className="bi bi-x-circle me-2"></i>
+
+                                Annulla
+
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
-                <div className="mb-3">
-
-                    <label className="form-label">
-                        Descrizione
-                    </label>
-
-                    <textarea
-                        rows="5"
-                        className="form-control"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                    />
-
-                </div>
-
-                <div className="form-check mb-3">
-
-                    <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="isForSale"
-                        checked={formData.isForSale}
-                        onChange={handleChange}
-                        id="saleCheck"
-                    />
-
-                    <label
-                        className="form-check-label"
-                        htmlFor="saleCheck"
-                    >
-                        Moto in vendita
-                    </label>
-
-                </div>
-
-                {formData.isForSale && (
-
-                    <div className="mb-4">
-
-                        <label className="form-label">
-                            Prezzo (€)
-                        </label>
-
-                        <input
-                            type="number"
-                            className="form-control"
-                            name="price"
-                            value={formData.price}
-                            onChange={handleChange}
-                            required
-                        />
-
-                    </div>
-
-                )}
-
-                <div className="d-flex gap-3">
-
-                    <button
-                        type="submit"
-                        className="btn btn-warning"
-                    >
-                        💾 Salva Modifiche
-                    </button>
-
-                    <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => navigate("/garage")}
-                    >
-                        Annulla
-                    </button>
-
-                </div>
-
-            </form>
+            </div>
 
         </div>
+
     );
+
 }
 
 export default EditMoto;

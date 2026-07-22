@@ -1,60 +1,78 @@
 import { Link } from "react-router-dom";
+import "../styles/motoCard.css";
 
 function MotoCard({ motorcycle }) {
   return (
-    <div className="card shadow h-100 motorcycle-card">
+    <div className="motorcycle-card">
 
-      <img
-        src={
-          motorcycle.image ||
-          "https://placehold.co/600x400?text=MotoroHub"
-        }
-        className="card-img-top motorcycle-image"
-        alt={`${motorcycle.brand} ${motorcycle.model}`}
-      />
+      <div className="motorcycle-image-wrapper">
 
-      <div className="card-body d-flex flex-column">
+        <img
+          src={
+            motorcycle.image ||
+            "https://placehold.co/600x400?text=MotoroHub"
+          }
+          className="motorcycle-image"
+          alt={`${motorcycle.brand} ${motorcycle.model}`}
+        />
 
-        <div className="d-flex justify-content-between align-items-center">
+        <span
+          className={
+            motorcycle.isForSale
+              ? "sale-badge sale"
+              : "sale-badge"
+          }
+        >
+          {motorcycle.isForSale ? "In vendita" : "Nel garage"}
+        </span>
 
-          <h4 className="mb-0">
-            {motorcycle.brand}
-          </h4>
+      </div>
 
-        </div>
+      <div className="motorcycle-body">
 
-        <h6 className="text-secondary mb-3">
+        <h3 className="motorcycle-brand">
+          {motorcycle.brand}
+        </h3>
+
+        <p className="motorcycle-model">
           {motorcycle.model}
-        </h6>
-        <p className="text-muted mb-3">
-          👤 <strong>@{motorcycle.owner?.username}</strong>
-        </p>
-        <p className="mb-1">
-          📅 {motorcycle.year}
         </p>
 
-        <p className="mb-1">
-          ⚙️ {motorcycle.cilindrata} cc
-        </p>
+        <div className="owner-badge">
+          <i className="bi bi-person-circle"></i>
+          @{motorcycle.owner?.username}
+        </div>
 
-        <p className="mb-1">
-          🐎 {motorcycle.power} CV
-        </p>
+        <div className="motorcycle-specs">
 
-        <p className="mb-3">
-          🛣️ {motorcycle.kilometers.toLocaleString()} km
-        </p>
+          <div>
+            <span>📅</span>
+            <strong>{motorcycle.year}</strong>
+          </div>
 
-        <div className="mt-auto d-grid">
+          <div>
+            <span>⚙️</span>
+            <strong>{motorcycle.cilindrata} cc</strong>
+          </div>
 
-          <Link
-            to={`/garage/${motorcycle._id}`}
-            className="btn btn-dark"
-          >
-            Dettagli
-          </Link>
+          <div>
+            <span>🐎</span>
+            <strong>{motorcycle.power} CV</strong>
+          </div>
+
+          <div>
+            <span>🛣️</span>
+            <strong>{motorcycle.kilometers.toLocaleString()} km</strong>
+          </div>
 
         </div>
+
+        <Link
+          to={`/garage/${motorcycle._id}`}
+          className="btn btn-danger w-100 motorcycle-button"
+        >
+          Dettagli
+        </Link>
 
       </div>
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { changePassword } from "../services/api";
+import "../styles/changePassword.css";
 
 function ChangePassword() {
     const { user } = useAuth();
@@ -65,120 +66,162 @@ function ChangePassword() {
     };
 
     return (
-        <div
-            className="container py-5"
-            style={{ maxWidth: "600px" }}
-        >
 
-            <h1 className="text-center mb-4">
-                Cambia Password
-            </h1>
+        <div className="change-password-page">
 
-            {error && (
-                <div className="alert alert-danger">
-                    {error}
-                </div>
-            )}
+            <div className="change-password-card fade-up">
 
-            {success && (
-                <div className="alert alert-success">
-                    {success}
-                </div>
-            )}
+                <div className="change-password-header">
 
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
+                    <i className="bi bi-shield-lock-fill"></i>
 
-                    <label className="form-label">
-                        Password attuale
-                    </label>
+                    <h1>
 
-                    <input
-                        type={showPasswords ? "text" : "password"}
-                        className="form-control"
-                        name="currentPassword"
-                        value={formData.currentPassword}
-                        onChange={handleChange}
-                        required
-                    />
+                        Cambia <span>Password</span>
+
+                    </h1>
+
+                    <p>
+
+                        Aggiorna la password del tuo account per mantenere il profilo al sicuro.
+
+                    </p>
 
                 </div>
 
-                <div className="mb-3">
+                {error && (
 
-                    <label className="form-label">
-                        Nuova password
-                    </label>
+                    <div className="alert alert-danger">
 
-                    <input
-                        type={showPasswords ? "text" : "password"}
-                        className="form-control"
-                        name="newPassword"
-                        value={formData.newPassword}
-                        onChange={handleChange}
-                        required
-                    />
+                        {error}
 
-                </div>
+                    </div>
 
-                <div className="mb-3">
+                )}
 
-                    <label className="form-label">
-                        Conferma nuova password
-                    </label>
+                {success && (
 
-                    <input
-                        type={showPasswords ? "text" : "password"}
-                        className="form-control"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        required
-                    />
+                    <div className="alert alert-success">
 
-                </div>
+                        {success}
 
-                <div className="form-check mb-4">
+                    </div>
 
-                    <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="showPasswords"
-                        checked={showPasswords}
-                        onChange={() => setShowPasswords(!showPasswords)}
-                    />
+                )}
 
-                    <label
-                        className="form-check-label"
-                        htmlFor="showPasswords"
-                    >
-                        👁 Mostra password
-                    </label>
+                <form onSubmit={handleSubmit}>
 
-                </div>
+                    <div className="mb-3">
 
-                <div className="d-flex gap-3">
+                        <label className="form-label">
 
-                    <button
-                        type="submit"
-                        className="btn btn-warning"
-                    >
-                        🔒 Cambia Password
-                    </button>
+                            Password attuale
 
-                    <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => navigate("/profile")}
-                    >
-                        Annulla
-                    </button>
+                        </label>
 
-                </div>
+                        <input
+                            type={showPasswords ? "text" : "password"}
+                            className="form-control"
+                            name="currentPassword"
+                            value={formData.currentPassword}
+                            onChange={handleChange}
+                            required
+                        />
 
-            </form>
+                    </div>
+
+                    <div className="mb-3">
+
+                        <label className="form-label">
+
+                            Nuova password
+
+                        </label>
+
+                        <input
+                            type={showPasswords ? "text" : "password"}
+                            className="form-control"
+                            name="newPassword"
+                            value={formData.newPassword}
+                            onChange={handleChange}
+                            required
+                        />
+
+                    </div>
+
+                    <div className="mb-4">
+
+                        <label className="form-label">
+
+                            Conferma nuova password
+
+                        </label>
+
+                        <input
+                            type={showPasswords ? "text" : "password"}
+                            className="form-control"
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            required
+                        />
+
+                    </div>
+
+                    <div className="form-check custom-check">
+
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="showPasswords"
+                            checked={showPasswords}
+                            onChange={() => setShowPasswords(!showPasswords)}
+                        />
+
+                        <label
+                            className="form-check-label"
+                            htmlFor="showPasswords"
+                        >
+
+                            Mostra password
+
+                        </label>
+
+                    </div>
+
+                    <div className="password-buttons">
+
+                        <button
+                            type="submit"
+                            className="btn btn-danger"
+                        >
+
+                            <i className="bi bi-check-circle me-2"></i>
+
+                            Salva Password
+
+                        </button>
+
+                        <button
+                            type="button"
+                            className="btn btn-outline-secondary"
+                            onClick={() => navigate("/profile")}
+                        >
+
+                            <i className="bi bi-x-circle me-2"></i>
+
+                            Annulla
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
+
     );
 }
 

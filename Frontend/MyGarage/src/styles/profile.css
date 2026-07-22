@@ -1,0 +1,131 @@
+.profile-page {
+    background: var(--background);
+    min-height: 100vh;
+}
+
+.profile-card {
+    max-width: 900px;
+    margin: auto;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 3rem;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.profile-avatar {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid white;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .12);
+    margin-bottom: 1.5rem;
+}
+
+.profile-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: .5rem;
+}
+
+.profile-username {
+    color: var(--primary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.info-card {
+    background: #fff;
+    border: 1px solid #ececec;
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: var(--transition);
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .08);
+}
+
+.info-card h5 {
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.info-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    word-break: break-word;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.profile-actions .btn {
+    min-width: 220px;
+    padding: .9rem 1.5rem;
+    border-radius: 14px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.profile-actions .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(220, 53, 69, .25);
+}
+
+.profile-actions .btn-outline-dark:hover,
+.profile-actions .btn-outline-danger:hover {
+    transform: translateY(-2px);
+}
+
+@media (max-width:768px) {
+
+    .profile-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .profile-avatar {
+        width: 140px;
+        height: 140px;
+    }
+
+    .profile-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-actions .btn {
+        width: 100%;
+        min-width: auto;
+    }
+
+}

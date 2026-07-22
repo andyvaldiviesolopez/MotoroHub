@@ -8,7 +8,7 @@ const upload = require("../middleware/multer")
 
 motorcycles.patch("/motorcycles/:id/image", verifyJWT, upload.single("image"), motorcycleController.uploadMotorcycleImage);
 
-motorcycles.post("/motorcycles", verifyJWT, motorcycleController.createMotorcycle)
+motorcycles.post("/motorcycles", verifyJWT, upload.single("image"), motorcycleController.createMotorcycle)
 motorcycles.post("/motorcycles/:id/contact", verifyJWT, motorcycleController.contactSeller);
 
 motorcycles.get("/motorcycles", verifyJWT, motorcycleController.getMotorcycles)

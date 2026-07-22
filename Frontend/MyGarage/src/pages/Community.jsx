@@ -3,6 +3,7 @@ import { getMotorcycles } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import CommunityCard from "../components/CommunityCard";
 import brands from "../data/brands";
+import "../styles/community.css"
 
 function Community() {
   const { user } = useAuth();
@@ -80,35 +81,39 @@ function Community() {
   return (
     <div className="container py-5">
 
-      <div className="text-center mb-4">
+      <div className="community-header">
 
-        <h1>🏍 Community</h1>
+        <div>
 
-        <p className="text-muted mb-2">
-          Esplora tutte le moto della community MotoroHub
-        </p>
+          <h1 className="community-title">
+            Community
+          </h1>
 
-        <span className="badge bg-dark fs-6">
+          <p className="community-subtitle">
+            Esplora le moto condivise dagli altri appassionati.
+          </p>
 
-          {filteredMotorcycles.length} di {motorcycles.length} moto visualizzate
+          <p className="community-counter">
+            {filteredMotorcycles.length} di {motorcycles.length} moto visualizzate
+          </p>
 
-        </span>
+        </div>
 
       </div>
 
-      <div className="card shadow-sm mb-5">
+      <div className="community-filters">
 
-        <div className="card-body">
+        <div className="community-filters-body">
 
           <div className="d-flex justify-content-between align-items-center mb-3">
 
-            <h5 className="mb-0">
-              🔎 Filtri
+            <h5 className="filters-title">
+              Filtri
             </h5>
 
             {hasFilters && (
               <button
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-danger btn-sm"
                 onClick={() => {
                   setSearch("");
                   setSelectedBrand("");

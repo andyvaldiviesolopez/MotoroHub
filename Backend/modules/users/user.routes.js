@@ -6,7 +6,7 @@ const upload = require("../middleware/multer");
 
 users.patch("/users/me/avatar",verifyJWT,upload.single("avatar"),userController.uploadAvatar);
 
-users.post("/users", userController.createUser)
+users.post("/users", upload.single("avatar"), userController.createUser)
 users.post("/users/favorites/:motorcycleId",verifyJWT, userController.addFavorite)
 
 users.get("/users",verifyJWT, userController.getUsers)

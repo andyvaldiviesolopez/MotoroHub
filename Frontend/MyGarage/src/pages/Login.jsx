@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import "../styles/login.css"
 
 function Login() {
   const navigate = useNavigate();
@@ -38,50 +39,76 @@ function Login() {
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "500px" }}>
-      <h2 className="mb-4 text-center">Login</h2>
+    <div className="login-page">
 
-      {error && (
-        <div className="alert alert-danger">
-          {error}
-        </div>
-      )}
+      <div className="login-card fade-up">
 
-      <form onSubmit={handleSubmit}>
+        <h2 className="login-title">
+          Motoro<span>Hub</span>
+        </h2>
 
-        <div className="mb-3">
-          <label>Email</label>
+        <p className="login-subtitle">
+          Accedi al tuo garage.
+        </p>
 
-          <input
-            className="form-control"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {error && (
+          <div className="alert alert-danger">
+            {error}
+          </div>
+        )}
 
-        <div className="mb-3">
-          <label>Password</label>
+        <form onSubmit={handleSubmit}>
 
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="mb-3">
 
-        <button className="btn btn-dark w-100">
-          Accedi
-        </button>
+            <label className="form-label">
+              Email
+            </label>
 
-      </form>
+            <input
+              className="form-control"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+
+          </div>
+
+          <div className="mb-4">
+
+            <label className="form-label">
+              Password
+            </label>
+
+            <input
+              className="form-control"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+          </div>
+
+          <button className="btn btn-danger w-100 login-button">
+            Accedi
+          </button>
+
+        </form>
+        <p className="login-register-link">
+          Non hai un account?{" "}
+          <Link to="/register">
+            Registrati
+          </Link>
+        </p>
+      </div>
+
     </div>
   );
+
 }
 
 export default Login;

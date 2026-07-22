@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getMyMotorcycles } from "../services/api";
 import MotoCard from "../components/MotoCard";
-import { Link } from "react-router-dom"
+import "../styles/garage.css";
 
 function Garage() {
     const [motorcycles, setMotorcycles] = useState([]);
@@ -25,15 +26,15 @@ function Garage() {
 
     if (loading) {
         return (
-            <div className="container mt-5">
-                <h3>Caricamento...</h3>
+            <div className="container py-5">
+                <h3 className="text-center">Caricamento...</h3>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="container mt-5">
+            <div className="container py-5">
                 <div className="alert alert-danger">
                     {error}
                 </div>
@@ -44,33 +45,73 @@ function Garage() {
     return (
         <div className="container py-5">
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="garage-header">
 
-                <h1>Il mio Garage</h1>
+                <div>
+
+                    <h1 className="garage-title">
+                        Il mio Garage
+                    </h1>
+
+                    <p className="garage-subtitle">
+                        Gestisci le tue moto e tieni aggiornata la tua collezione.
+                    </p>
+
+                    <p className="garage-counter">
+                        {motorcycles.length}{" "}
+                        {motorcycles.length === 1
+                            ? "moto registrata"
+                            : "moto registrate"}
+                    </p>
+
+                </div>
 
                 <Link
                     to="/garage/add"
-                    className="btn btn-dark"
+                    className="btn btn-danger garage-add-btn"
                 >
-                    + Aggiungi Moto
+                    <i className="bi bi-plus-circle me-2"></i>
+                    Aggiungi Moto
                 </Link>
 
             </div>
 
             {motorcycles.length === 0 ? (
-                <div className="alert alert-info">
-                    Non hai ancora aggiunto nessuna moto.
+
+                <div className="empty-garage">
+
+                    <h3>Nessuna moto presente</h3>
+
+                    <p>
+                        Inizia aggiungendo la tua prima moto al garage.
+                    </p>
+
+                    <Link
+                        to="/garage/add"
+                        className="btn btn-danger"
+                    >
+                        Aggiungi Moto
+                    </Link>
+
                 </div>
+
             ) : (
+
                 <div className="row g-4">
 
                     {motorcycles.map((motorcycle) => (
-                        <div className="col-md-4" key={motorcycle._id}>
+
+                        <div
+                            className="col-lg-4 col-md-6"
+                            key={motorcycle._id}
+                        >
                             <MotoCard motorcycle={motorcycle} />
                         </div>
+
                     ))}
 
                 </div>
+
             )}
 
         </div>

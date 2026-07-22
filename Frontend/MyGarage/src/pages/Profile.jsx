@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../context/AuthContext";
 import { getUserById, deleteUser } from "../services/api";
+
 import ConfirmModal from "../components/ConfirmModal";
 
+import "../styles/profile.css";
+
 function Profile() {
+
   const { user, logout } = useAuth();
+
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
@@ -14,22 +20,35 @@ function Profile() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+
     async function loadProfile() {
+
       try {
+
         const data = await getUserById(user.id);
+
         setProfile(data);
+
       } catch (err) {
+
         setError(err.message);
+
       } finally {
+
         setLoading(false);
+
       }
+
     }
 
     loadProfile();
+
   }, [user.id]);
 
   const handleDelete = async () => {
+
     try {
+
       setShowModal(false);
 
       await deleteUser(user.id);
@@ -37,114 +56,176 @@ function Profile() {
       logout();
 
       navigate("/");
+
     } catch (err) {
+
       alert(err.message);
+
     }
+
   };
 
   const handleEdit = () => {
+
     navigate("/profile/edit");
+
   };
 
   if (loading) {
+
     return (
+
       <div className="container py-5">
+
         <h3>Caricamento...</h3>
+
       </div>
+
     );
+
   }
 
   if (error) {
+
     return (
+
       <div className="container py-5">
+
         <div className="alert alert-danger">
+
           {error}
+
         </div>
+
       </div>
+
     );
+
   }
 
   return (
-    <div className="container py-5">
 
-      <div className="card shadow">
+    <div className="profile-page">
 
-        <div className="card-body text-center">
+      <div className="container py-5">
 
-          <img
-            src={
-              profile.avatar ||
-              "https://placehold.co/150x150?text=User"
-            }
-            alt={profile.username}
-            className="rounded-circle mb-4"
-            width="150"
-            height="150"
-            style={{ objectFit: "cover" }}
-          />
+        <div className="profile-card fade-up">
 
-          <h2>
-            {profile.firstName} {profile.lastName}
-          </h2>
+          <div className="profile-header">
 
-          <p className="text-muted">
-            @{profile.username}
-          </p>
+            <img
+              src={
+                profile.avatar ||
+                "https://placehold.co/200x200?text=User"
+              }
+              alt={profile.username}
+              className="profile-avatar"
+            />
 
-          <hr />
+            <h1>
 
-          <div className="row text-start">
+              {profile.firstName} {profile.lastName}
 
-            <div className="col-md-6">
+            </h1>
+
+            <p className="profile-username">
+
+              @{profile.username}
+
+            </p>
+
+          </div>
+
+          <div className="profile-info-grid">
+            <div className="info-card">
+
+              <h5>
+
+                <i className="bi bi-envelope-fill me-2"></i>
+
+                Email
+
+              </h5>
 
               <p>
-                <strong>Email:</strong> {profile.email}
-              </p>
 
-              <p>
-                <strong>Città:</strong>{" "}
-                {profile.city || "-"}
+                {profile.email}
+
               </p>
 
             </div>
 
-            <div className="col-md-6">
+            <div className="info-card">
+
+              <h5>
+
+                <i className="bi bi-geo-alt-fill me-2"></i>
+
+                Città
+
+              </h5>
 
               <p>
-                <strong>Bio:</strong>
+
+                {profile.city || "Non specificata"}
+
               </p>
 
+            </div>
+
+            <div className="info-card full-width">
+
+              <h5>
+
+                <i className="bi bi-person-lines-fill me-2"></i>
+
+                Bio
+
+              </h5>
+
               <p>
-                {profile.bio || "Nessuna bio inserita"}
+
+                {profile.bio || "Nessuna bio inserita."}
+
               </p>
 
             </div>
 
           </div>
 
-          <hr />
-
-          <div className="d-flex justify-content-center gap-3">
-
-            <button
-              className="btn btn-warning"
-              onClick={handleEdit}
-            >
-              ✏️ Modifica Profilo
-            </button>
-
-            <button
-              className="btn btn-dark"
-              onClick={() => navigate("/profile/password")}
-            >
-              🔒 Cambia Password
-            </button>
+          <div className="profile-actions">
 
             <button
               className="btn btn-danger"
+              onClick={handleEdit}
+            >
+
+              <i className="bi bi-pencil-square me-2"></i>
+
+              Modifica Profilo
+
+            </button>
+
+            <button
+              className="btn btn-outline-dark"
+              onClick={() => navigate("/profile/password")}
+            >
+
+              <i className="bi bi-lock-fill me-2"></i>
+
+              Cambia Password
+
+            </button>
+
+            <button
+              className="btn btn-outline-danger"
               onClick={() => setShowModal(true)}
             >
-              🗑 Elimina Account
+
+              <i className="bi bi-trash-fill me-2"></i>
+
+              Elimina Account
+
             </button>
 
           </div>
@@ -162,7 +243,9 @@ function Profile() {
       />
 
     </div>
+
   );
+
 }
 
 export default Profile;

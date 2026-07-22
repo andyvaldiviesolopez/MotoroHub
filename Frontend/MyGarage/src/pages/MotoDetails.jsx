@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getMotorcycleById, deleteMotorcycle } from "../services/api";
+import { getMotorcycleById, deleteMotorcycle, contactSeller } from "../services/api";
 import ConfirmModal from "../components/ConfirmModal";
 import ContactSellerModal from "../components/ContactSellerModal";
-import { contactSeller } from "../services/api";
+import SuccessModal from "../components/SuccessModal";
+import "../styles/motoDetails.css";
 
 function MotoDetails() {
   const { id } = useParams();
@@ -14,8 +15,10 @@ function MotoDetails() {
   const [motorcycle, setMotorcycle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [showModal, setShowModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     async function loadMotorcycle() {
@@ -54,130 +57,195 @@ function MotoDetails() {
 
       setShowContactModal(false);
 
-      alert("✅ Messaggio inviato con successo!");
+      setShowSuccessModal(true);
     } catch (err) {
       alert(err.message);
     }
   };
-
-
   if (loading) {
     return (
-      <div className="container mt-5">
-        <h3>Caricamento...</h3>
+      <div className="container py-5">
+        <h3>Caricamento moto...</h3>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mt-5">
-        <div className="alert alert-danger">{error}</div>
+      <div className="container py-5">
+        <div className="alert alert-danger">
+          {error}
+        </div>
       </div>
     );
   }
 
-  const isOwner =
-    motorcycle?.owner?._id === user?.id;
+  const isOwner = motorcycle?.owner?._id === user?.id;
 
   return (
     <div className="container py-5">
-      <div className="card shadow">
+
+      <div className="details-card fade-up">
 
         <img
           src={
             motorcycle.image ||
-            "https://placehold.co/900x500?text=MotoroHub"
+            "https://placehold.co/1200x700?text=MotoroHub"
           }
-          className="card-img-top"
           alt={`${motorcycle.brand} ${motorcycle.model}`}
-          style={{
-            maxHeight: "450px",
-            objectFit: "cover",
-          }}
+          className="details-image"
         />
 
-        <div className="card-body">
+        <div className="details-body">
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="details-header">
 
-            <h2>
-              {motorcycle.brand} {motorcycle.model}
-            </h2>
+            <div>
+
+              <h1 className="details-title">
+                {motorcycle.brand}
+              </h1>
+
+              <p className="details-model">
+                {motorcycle.model}
+              </p>
+
+            </div>
 
             {motorcycle.isForSale && (
-              <span className="badge bg-danger fs-6">
+
+              <span className="details-sale-badge">
+
                 In vendita
+
               </span>
+
             )}
 
           </div>
 
-          <hr />
+          <div className="details-owner">
 
-          <div className="row">
+            <span>
 
-            <div className="col-md-6">
+              <i className="bi bi-person-circle me-2"></i>
 
-              <p><strong>Anno:</strong> {motorcycle.year}</p>
+              {motorcycle.owner.firstName}
 
-              <p><strong>Cilindrata:</strong> {motorcycle.cilindrata} cc</p>
-
-              <p><strong>Potenza:</strong> {motorcycle.power} CV</p>
-
-              <p><strong>Chilometri:</strong> {motorcycle.kilometers.toLocaleString()} km</p>
-
-            </div>
-
-            <div className="col-md-6">
-
-              <p><strong>Colore:</strong> {motorcycle.color}</p>
-
-              <p><strong>Proprietario:</strong> {motorcycle.owner.firstName}</p>
-
-              {motorcycle.isForSale && (
-                <p><strong>Prezzo:</strong> € {motorcycle.price}</p>
-              )}
-
-            </div>
+            </span>
 
           </div>
 
-          <hr />
+          <div className="details-specs">
 
-          <h5>Descrizione</h5>
+            <div>
 
-          <p>
-            {motorcycle.description || "Nessuna descrizione."}
-          </p>
+              <span>📅 Anno</span>
 
-          <hr />
+              <strong>{motorcycle.year}</strong>
+
+            </div>
+
+            <div>
+
+              <span>⚙️ Cilindrata</span>
+
+              <strong>{motorcycle.cilindrata} cc</strong>
+
+            </div>
+
+            <div>
+
+              <span>🔥 Potenza</span>
+
+              <strong>{motorcycle.power} CV</strong>
+
+            </div>
+
+            <div>
+
+              <span>🛣️ Chilometri</span>
+
+              <strong>{motorcycle.kilometers.toLocaleString()} km</strong>
+
+            </div>
+
+            <div>
+
+              <span>🎨 Colore</span>
+
+              <strong>{motorcycle.color}</strong>
+
+            </div>
+
+            {motorcycle.isForSale && (
+
+              <div>
+
+                <span>💰 Prezzo</span>
+
+                <strong>
+                  € {motorcycle.price.toLocaleString()}
+                </strong>
+
+              </div>
+
+            )}
+
+          </div>
+
+          <h3 className="section-title">
+
+            Descrizione
+
+          </h3>
+
+          <div className="description-box">
+
+            {motorcycle.description ||
+              "Nessuna descrizione disponibile."}
+
+          </div>
 
           {isOwner ? (
-            <div className="d-flex gap-3">
+
+            <div className="details-actions">
 
               <button
-                className="btn btn-warning"
+                className="btn btn-outline-danger"
                 onClick={handleEdit}
               >
-                ✏️ Modifica Moto
+                <i className="bi bi-pencil-square me-2"></i>
+
+                Modifica
               </button>
 
               <button
                 className="btn btn-danger"
                 onClick={() => setShowModal(true)}
               >
-                🗑 Elimina Moto
+                <i className="bi bi-trash me-2"></i>
+
+                Elimina
               </button>
 
             </div>
+
           ) : (
-            <button
-              className="btn btn-primary"
-              onClick={() => setShowContactModal(true)}
-            >
-              📧 Contatta il venditore
-            </button>
+
+            <div className="details-actions">
+
+              <button
+                className="btn btn-danger"
+                onClick={() => setShowContactModal(true)}
+              >
+                <i className="bi bi-envelope-fill me-2"></i>
+
+                Contatta il venditore
+              </button>
+
+            </div>
+
           )}
 
         </div>
@@ -191,12 +259,21 @@ function MotoDetails() {
         onConfirm={handleDelete}
         onClose={() => setShowModal(false)}
       />
+
       <ContactSellerModal
         show={showContactModal}
         motorcycle={motorcycle}
         onClose={() => setShowContactModal(false)}
         onSend={handleContactSeller}
       />
+
+      <SuccessModal
+        show={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        title="Messaggio inviato!"
+        message="Il venditore riceverà il tuo messaggio e potrà contattarti tramite email."
+      />
+
     </div>
   );
 }

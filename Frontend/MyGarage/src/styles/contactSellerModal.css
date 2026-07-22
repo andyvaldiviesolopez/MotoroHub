@@ -1,0 +1,151 @@
+.contact-modal-body{
+    padding:2rem;
+}
+
+.contact-moto{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    background:#f8f9fa;
+    border:1px solid #ececec;
+    border-radius:20px;
+    padding:1.2rem 1.5rem;
+    margin-bottom:2rem;
+}
+
+.contact-moto i{
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.8rem;
+    color:var(--primary);
+    background:white;
+    border-radius:50%;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.contact-moto small{
+    display:block;
+    color:var(--text-secondary);
+    font-size:.9rem;
+    margin-bottom:.2rem;
+}
+
+.contact-moto h5{
+    margin:0;
+    font-weight:700;
+    color:var(--text);
+}
+
+.contact-modal-body .form-label{
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:.6rem;
+}
+
+.contact-modal-body textarea{
+    resize:none;
+    border-radius:16px;
+    padding:1rem;
+    min-height:180px;
+    transition:var(--transition);
+}
+
+.contact-modal-body textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 .2rem rgba(220,53,69,.15);
+}
+
+.contact-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:.7rem;
+}
+
+.contact-footer small{
+    color:var(--text-secondary);
+}
+
+.contact-modal-footer{
+    padding:1.5rem 2rem 2rem;
+    display:flex;
+    gap:1rem;
+}
+
+.contact-modal-footer .btn{
+    flex:1;
+    padding:.85rem 1rem;
+    border-radius:14px;
+    font-weight:600;
+    transition:var(--transition);
+}
+
+.contact-modal-footer .btn-danger:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 30px rgba(220,53,69,.25);
+}
+
+.contact-modal-footer .btn-outline-secondary:hover{
+    transform:translateY(-2px);
+}
+
+.modal-content{
+    border:none;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.15);
+}
+
+.modal-header{
+    padding:1.5rem 2rem;
+    border-bottom:1px solid #ececec;
+}
+
+.modal-title{
+    font-weight:700;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+}
+
+.modal-title i{
+    color:var(--primary);
+}
+
+.modal-header .btn-close{
+    transition:var(--transition);
+}
+
+.modal-header .btn-close:hover{
+    transform:rotate(90deg);
+}
+
+.text-danger{
+    font-size:.9rem;
+    font-weight:500;
+}
+
+@media (max-width:768px){
+
+    .contact-modal-body{
+        padding:1.5rem;
+    }
+
+    .contact-modal-footer{
+        flex-direction:column;
+        padding:1.5rem;
+    }
+
+    .contact-modal-footer .btn{
+        width:100%;
+    }
+
+    .contact-moto{
+        flex-direction:column;
+        text-align:center;
+    }
+
+}

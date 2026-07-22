@@ -1,0 +1,70 @@
+.motorohub-footer{
+
+    margin-top:5rem;
+
+    background:var(--surface);
+
+    border-top:1px solid #ececec;
+
+    padding:3rem 0 2rem;
+
+}
+
+.footer-logo{
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    text-align:center;
+
+    margin-bottom:1rem;
+
+    color:var(--text);
+
+}
+
+.footer-logo span{
+
+    color:var(--primary);
+
+}
+
+.footer-description{
+
+    max-width:650px;
+
+    margin:0 auto;
+
+    text-align:center;
+
+    color:var(--text-secondary);
+
+    line-height:1.8;
+
+}
+
+.footer-divider{
+
+    width:90px;
+    height:3px;
+
+    background:var(--primary);
+
+    margin:2rem auto;
+
+    border-radius:10px;
+
+}
+
+.footer-copy{
+
+    text-align:center;
+
+    color:#999;
+
+    margin:0;
+
+    font-size:.95rem;
+
+}

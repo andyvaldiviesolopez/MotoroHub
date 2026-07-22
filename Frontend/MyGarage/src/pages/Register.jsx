@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/api";
+import "../styles/register.css";
 
 function Register() {
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -14,25 +16,53 @@ function Register() {
     city: "",
   });
 
+  const [avatar, setAvatar] = useState(null);
+  const [preview, setPreview] = useState(null);
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
+
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+  };
+
+  const handleAvatarChange = (e) => {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setAvatar(file);
+    setPreview(URL.createObjectURL(file));
+
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     setError("");
 
     try {
-      await registerUser(formData);
+
+      const data = new FormData();
+
+      Object.entries(formData).forEach(([key, value]) => {
+        data.append(key, value);
+      });
+
+      if (avatar) {
+        data.append("avatar", avatar);
+      }
+
+      await registerUser(data);
 
       setSuccess("Registrazione completata! Reindirizzamento al login...");
 
@@ -41,139 +71,202 @@ function Register() {
       }, 1500);
 
     } catch (err) {
+
       setError(err.message);
+
     }
+
   };
 
   return (
-    <div className="container py-5" style={{ maxWidth: "700px" }}>
 
-      <h1 className="mb-4 text-center">
-        Registrati
-      </h1>
+    <div className="register-page">
+      <div className="register-card fade-up">
 
-      {error && (
-        <div className="alert alert-danger">
-          {error}
-        </div>
-      )}
+        <h2 className="register-title">
+          Motoro<span>Hub</span>
+        </h2>
 
-      {success && (
-        <div className="alert alert-success">
-          {success}
-        </div>
-      )}
+        <p className="register-subtitle">
+          Crea il tuo account.
+        </p>
 
-      <form onSubmit={handleSubmit}>
+        <div className="avatar-preview">
 
-        <div className="row">
+          {preview ? (
 
-          <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Nome
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
+            <img
+              src={preview}
+              alt="Avatar"
+              className="preview-avatar"
             />
-          </div>
 
-          <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Cognome
-            </label>
+          ) : (
 
-            <input
-              type="text"
-              className="form-control"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </div>
+            <div className="default-avatar">
+              <i className="bi bi-person-fill"></i>
+            </div>
 
-          <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Username
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Email
-            </label>
-
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Password
-            </label>
-
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="col-md-6 mb-3">
-            <label className="form-label">
-              Città
-            </label>
-
-            <input
-              type="text"
-              className="form-control"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-            />
-          </div>
+          )}
 
         </div>
 
-        <div className="d-grid mt-4">
+        {error && (
+          <div className="alert alert-danger">
+            {error}
+          </div>
+        )}
 
-          <button
-            type="submit"
-            className="btn btn-dark btn-lg"
-          >
-            Registrati
-          </button>
+        {success && (
+          <div className="alert alert-success">
+            {success}
+          </div>
+        )}
 
-        </div>
+        <form onSubmit={handleSubmit}>
 
-      </form>
+          <div className="row">
 
+            <div className="col-md-6 mb-3">
+
+              <label className="form-label">
+                Nome
+              </label>
+
+              <input
+                type="text"
+                className="form-control"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+              />
+
+            </div>
+
+            <div className="col-md-6 mb-3">
+
+              <label className="form-label">
+                Cognome
+              </label>
+
+              <input
+                type="text"
+                className="form-control"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+
+            </div>
+
+            <div className="col-md-6 mb-3">
+
+              <label className="form-label">
+                Username
+              </label>
+
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+
+            </div>
+
+            <div className="col-md-6 mb-3">
+
+              <label className="form-label">
+                Email
+              </label>
+
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+
+            </div>
+
+            <div className="col-md-6 mb-3">
+
+              <label className="form-label">
+                Password
+              </label>
+
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+
+            </div>
+
+            <div className="col-md-6 mb-3">
+
+              <label className="form-label">
+                Città
+              </label>
+
+              <input
+                type="text"
+                className="form-control"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+              />
+
+            </div>
+
+            <div className="col-12 mb-3">
+
+              <label className="form-label">
+                Foto profilo
+              </label>
+
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*"
+                onChange={handleAvatarChange}
+              />
+
+            </div>
+          </div>
+
+          <div className="d-grid mt-4">
+
+            <button
+              type="submit"
+              className="btn btn-danger w-100 register-button"
+            >
+              Registrati
+            </button>
+
+          </div>
+
+        </form>
+        <p className="register-login-link">
+          Hai già un account?{" "}
+          <Link to="/login">
+            Accedi
+          </Link>
+        </p>
+      </div>
     </div>
+
   );
+
 }
 
 export default Register;

@@ -2,7 +2,9 @@ const motorcycleService = require("./motorcycle.service")
 
 const createMotorcycle = async (req, res) => {
     try {
-
+        if (req.file) {
+            req.body.image = req.file.path;
+        }
         const newMotorcycle = await motorcycleService.createMotorcycle(
             req.body,
             req.user.id

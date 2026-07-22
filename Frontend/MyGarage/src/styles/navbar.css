@@ -1,0 +1,113 @@
+.motorohub-navbar {
+
+    background: white;
+    border-bottom: 1px solid #ececec;
+    box-shadow: 0 4px 18px rgba(0,0,0,.04);
+
+}
+
+.motorohub-logo {
+
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text) !important;
+    transition: var(--transition);
+
+}
+
+.motorohub-logo span{
+
+    color:var(--primary);
+
+}
+
+.motorohub-logo:hover {
+
+    color: var(--primary) !important;
+
+}
+
+.motorohub-link {
+
+    font-weight: 600;
+    color: var(--text) !important;
+
+    margin-left: .5rem;
+
+    transition: var(--transition);
+
+}
+
+.motorohub-link:hover {
+
+    color: var(--primary) !important;
+
+}
+
+.profile-button {
+
+    display: flex;
+    align-items: center;
+
+    background: transparent;
+    border: none;
+
+    color: var(--text);
+
+    font-weight: 600;
+
+    transition: var(--transition);
+
+}
+
+.profile-button:hover {
+
+    color: var(--primary);
+
+}
+
+.profile-button img{
+
+    border:2px solid transparent;
+    transition:var(--transition);
+
+}
+
+.profile-button:hover img{
+
+    border-color:var(--primary);
+
+}
+
+.dropdown-menu{
+
+    border:none;
+    border-radius:18px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    padding:.6rem;
+
+}
+
+.dropdown-item{
+
+    border-radius:10px;
+    padding:.7rem .9rem;
+
+    transition:var(--transition);
+
+}
+
+.dropdown-item:hover{
+
+    background:#f8f9fa;
+    color:var(--primary);
+
+}
+
+.dropdown-divider{
+
+    margin:.5rem 0;
+
+}

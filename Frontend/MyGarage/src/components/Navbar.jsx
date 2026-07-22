@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useFavorites } from "../context/FavoritesContext";
+import "../styles/navbar.css"
 
 function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -13,36 +14,56 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
+    <nav className="navbar navbar-expand-lg motorohub-navba py-3">
       <div className="container">
 
-        <Link className="navbar-brand fw-bold" to="/">
-          🏍 MotoroHub
+        <Link className="navbar-brand motorohub-logo" to="/">
+          Motoro<span>Hub</span>
         </Link>
 
-        <div className="navbar-nav ms-auto">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-          <Link className="nav-link" to="/">
-            Home
-          </Link>
-          <Link className="nav-link" to="/community">
-            Community
-          </Link>
-          {isAuthenticated ? (
-            <>
+        <div
+          className="collapse navbar-collapse"
+          id="navbarContent"
+        >
+          <ul className="navbar-nav ms-auto align-items-lg-center">
 
-              <div className="dropdown ms-3">
+            <li className="nav-item">
+              <Link className="nav-link motorohub-link" to="/">
+                Home
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link motorohub-link" to="/community">
+                Community
+              </Link>
+            </li>
+
+            {isAuthenticated ? (
+
+              <li className="nav-item dropdown ms-lg-3">
 
                 <button
-                  className="btn btn-dark dropdown-toggle d-flex align-items-center border-0"
+                  className="dropdown-toggle profile-button d-flex align-items-center"
                   data-bs-toggle="dropdown"
                 >
-
                   <img
                     src={user.avatar}
                     alt={user.firstName}
-                    width="38"
-                    height="38"
+                    width="40"
+                    height="40"
                     className="rounded-circle me-2"
                     style={{ objectFit: "cover" }}
                   />
@@ -50,35 +71,25 @@ function Navbar() {
                   <span>
                     Ciao {user.firstName}
                   </span>
-
                 </button>
 
                 <ul className="dropdown-menu dropdown-menu-end">
 
                   <li>
-                    <Link
-                      className="dropdown-item"
-                      to="/profile"
-                    >
+                    <Link className="dropdown-item" to="/profile">
                       👤 Profilo
                     </Link>
                   </li>
 
                   <li>
-                    <Link
-                      className="dropdown-item"
-                      to="/garage"
-                    >
+                    <Link className="dropdown-item" to="/garage">
                       🏍 Garage
                     </Link>
                   </li>
 
                   <li>
-                    <Link
-                      className="dropdown-item"
-                      to="/favorites"
-                    >
-                      ❤️ Preferiti
+                    <Link className="dropdown-item" to="/favorites">
+                      ❤️ Preferiti ({favorites.length})
                     </Link>
                   </li>
 
@@ -87,32 +98,35 @@ function Navbar() {
                   </li>
 
                   <li>
-
                     <button
                       className="dropdown-item text-danger"
                       onClick={handleLogout}
                     >
                       🚪 Logout
                     </button>
-
                   </li>
 
                 </ul>
 
-              </div>
-            </>
-          ) : (
-            <>
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
+              </li>
 
-              <Link className="nav-link" to="/register">
-                Registrati
-              </Link>
-            </>
-          )}
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link motorohub-link" to="/login">
+                    Login
+                  </Link>
+                </li>
 
+                <li className="nav-item">
+                  <Link className="nav-link motorohub-link" to="/register">
+                    Registrati
+                  </Link>
+                </li>
+              </>
+            )}
+
+          </ul>
         </div>
 
       </div>

@@ -3,6 +3,9 @@ const { sendWelcomeEmail } = require("../services/emailService");
 
 const createUser = async (req, res) => {
     try {
+        if (req.file) {
+            req.body.avatar = req.file.path;
+        }
         const newUser = await userService.createUser(req.body)
 
         try {

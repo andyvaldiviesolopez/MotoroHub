@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import {
-  getUserById,
-  updateUser,
-  uploadAvatar,
-} from "../services/api";
+import { getUserById, updateUser, uploadAvatar, } from "../services/api";
+import "../styles/form.css";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -96,34 +93,60 @@ function EditProfile() {
   };
 
   return (
-    <div
-      className="container py-5"
-      style={{ maxWidth: "700px" }}
-    >
-      <div className="card shadow">
 
-        <div className="card-body">
+    <div className="add-page">
 
-          <div className="text-center mb-4">
+      <div className="container py-5">
+
+        <div className="add-card fade-up">
+
+          <div className="add-header">
+
+            <h1>
+
+              Modifica <span>Profilo</span>
+
+            </h1>
+
+            <p>
+
+              Aggiorna le informazioni del tuo account MotoroHub.
+
+            </p>
+
+          </div>
+
+          <div className="image-preview-wrapper">
 
             <label
               htmlFor="avatarInput"
               style={{ cursor: "pointer" }}
             >
-              <img
-                src={
-                  preview ||
-                  "https://placehold.co/150x150?text=User"
-                }
-                alt="Avatar"
-                className="rounded-circle shadow"
-                width="150"
-                height="150"
-                style={{
-                  objectFit: "cover",
-                  border: "4px solid #f8f9fa",
-                }}
-              />
+
+              {preview ? (
+
+                <img
+                  src={preview}
+                  alt="Avatar"
+                  className="preview-image"
+                />
+
+              ) : (
+
+                <div className="empty-preview">
+
+                  <i className="bi bi-person-fill"></i>
+
+                  <p>
+
+                    Seleziona un avatar
+
+                  </p>
+
+                </div>
+
+              )}
+
             </label>
 
             <input
@@ -134,37 +157,45 @@ function EditProfile() {
               onChange={handleAvatarChange}
             />
 
-            <h2 className="mt-3">
-              Modifica Profilo
-            </h2>
-
-            <p className="text-muted mb-0">
-              Clicca sulla foto per cambiare avatar
-            </p>
-
-            {selectedAvatar && (
-              <div className="alert alert-info mt-3 mb-0">
-                📷 Nuova immagine selezionata.
-                Verrà caricata quando salverai il profilo.
-              </div>
-            )}
-
           </div>
 
-          {error && (
-            <div className="alert alert-danger">
-              {error}
+          {selectedAvatar && (
+
+            <div className="alert alert-info mt-4">
+
+              <i className="bi bi-camera-fill me-2"></i>
+
+              Nuovo avatar selezionato. Verrà salvato insieme alle modifiche.
+
             </div>
+
+          )}
+
+          {error && (
+
+            <div className="alert alert-danger">
+
+              {error}
+
+            </div>
+
           )}
 
           <form onSubmit={handleSubmit}>
 
-            <div className="row">
+            <h5 className="section-title">
 
+              Informazioni personali
+
+            </h5>
+
+            <div className="row">
               <div className="col-md-6 mb-3">
 
                 <label className="form-label">
+
                   Nome
+
                 </label>
 
                 <input
@@ -181,7 +212,9 @@ function EditProfile() {
               <div className="col-md-6 mb-3">
 
                 <label className="form-label">
+
                   Cognome
+
                 </label>
 
                 <input
@@ -198,7 +231,9 @@ function EditProfile() {
               <div className="col-md-6 mb-3">
 
                 <label className="form-label">
+
                   Username
+
                 </label>
 
                 <input
@@ -215,7 +250,9 @@ function EditProfile() {
               <div className="col-md-6 mb-3">
 
                 <label className="form-label">
+
                   Email
+
                 </label>
 
                 <input
@@ -229,10 +266,22 @@ function EditProfile() {
 
               </div>
 
+            </div>
+
+            <h5 className="section-title mt-4">
+
+              Informazioni aggiuntive
+
+            </h5>
+
+            <div className="row">
+
               <div className="col-md-6 mb-3">
 
                 <label className="form-label">
+
                   Città
+
                 </label>
 
                 <input
@@ -244,16 +293,19 @@ function EditProfile() {
                 />
 
               </div>
-              <div className="col-12 mb-3">
+
+              <div className="col-12 mb-4">
 
                 <label className="form-label">
+
                   Bio
+
                 </label>
 
                 <textarea
                   className="form-control"
                   name="bio"
-                  rows="4"
+                  rows="5"
                   maxLength={300}
                   placeholder="Racconta qualcosa di te..."
                   value={formData.bio}
@@ -261,27 +313,38 @@ function EditProfile() {
                 />
 
                 <div className="form-text text-end">
+
                   {formData.bio.length}/300 caratteri
+
                 </div>
 
               </div>
+
             </div>
 
-            <div className="d-flex justify-content-center gap-3 mt-4">
+            <div className="d-flex flex-column flex-md-row gap-3 mt-4">
 
               <button
                 type="submit"
-                className="btn btn-warning"
+                className="btn btn-danger add-button flex-fill"
               >
-                💾 Salva Profilo
+
+                <i className="bi bi-check-circle me-2"></i>
+
+                Salva modifiche
+
               </button>
 
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-outline-secondary add-button flex-fill"
                 onClick={() => navigate("/profile")}
               >
+
+                <i className="bi bi-x-circle me-2"></i>
+
                 Annulla
+
               </button>
 
             </div>
@@ -293,7 +356,7 @@ function EditProfile() {
       </div>
 
     </div>
+
   );
 }
-
 export default EditProfile;
