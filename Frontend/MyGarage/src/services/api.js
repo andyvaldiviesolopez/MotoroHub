@@ -296,3 +296,21 @@ export const uploadAvatar = async (image) => {
 
     return data.user;
 };
+
+export const contactSeller = async (motorcycleId, message) => {
+
+    const response = await fetch(
+        `${API_URL}/motorcycles/${motorcycleId}/contact`,
+        {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ message })
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Errore durante l'invio del messaggio");
+    }
+
+    return await response.json();
+};

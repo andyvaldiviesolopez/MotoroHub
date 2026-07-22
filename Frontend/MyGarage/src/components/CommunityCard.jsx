@@ -10,7 +10,7 @@ function CommunityCard({ motorcycle }) {
         <img
           src={
             motorcycle.image ||
-            "https://placehold.co/600x400?text=MyGarage"
+            "https://placehold.co/600x400?text=MotoroHub"
           }
           className="card-img-top"
           alt={`${motorcycle.brand} ${motorcycle.model}`}

@@ -1,8 +1,17 @@
 const userService = require("./user.service")
+const { sendWelcomeEmail } = require("../services/emailService");
 
 const createUser = async (req, res) => {
     try {
         const newUser = await userService.createUser(req.body)
+
+        try {
+            await sendWelcomeEmail(newUser);
+        } catch (err) {
+            console.error("Errore invio email:");
+            console.dir(err, { depth: null });
+        }
+
         res.status(201)
             .send({
                 statusCode: 201,
@@ -33,6 +42,8 @@ const createUser = async (req, res) => {
     }
 
 }
+
+
 
 const getUsers = async (req, res) => {
     console.log(req.user)

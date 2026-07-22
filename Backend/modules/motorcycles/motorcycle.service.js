@@ -1,4 +1,6 @@
 const Motorcycle = require("./motorcycle.schema")
+const User = require("../users/user.schema");
+const { sendContactSellerEmail } = require("../services/emailService");
 
 const createMotorcycle = async (body, userId) => {
     const newMotorcycle = await Motorcycle.create({
@@ -90,6 +92,40 @@ const uploadMotorcycleImage = async (id, userId, imageUrl) => {
     return motorcycle;
 };
 
+const contactSeller = async (motorcycleId, buyerId, message) => {
+
+    if (!message || message.trim() === "") {
+        throw new Error("Il messaggio non può essere vuoto");
+    }
+
+    const motorcycle = await Motorcycle.findById(motorcycleId)
+        .populate("owner");
+
+    if (!motorcycle) {
+        throw new Error("Moto non trovata");
+    }
+
+    const buyer = await User.findById(buyerId);
+
+    if (!buyer) {
+        throw new Error("Utente non trovato");
+    }
+
+    if (motorcycle.owner._id.toString() === buyerId) {
+        throw new Error("Non puoi contattare te stesso");
+    }
+
+
+    await sendContactSellerEmail(
+        motorcycle.owner,
+        buyer,
+        motorcycle,
+        message
+    );
+
+    return true;
+};
+
 module.exports = {
     createMotorcycle,
     getMotorcycles,
@@ -97,5 +133,6 @@ module.exports = {
     updateMotorcycle,
     deleteMotorcycle,
     getMyMotorcycles,
-    uploadMotorcycleImage
+    uploadMotorcycleImage,
+    contactSeller
 }

@@ -11,7 +11,7 @@ function Home() {
             <div className="text-center mt-5">
 
                 <h1 className="display-3 fw-bold">
-                    MyGarage
+                    MotoroHub
                 </h1>
 
                 {isAuthenticated ? (

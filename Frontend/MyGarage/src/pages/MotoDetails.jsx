@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import {
-  getMotorcycleById,
-  deleteMotorcycle,
-} from "../services/api";
+import { getMotorcycleById, deleteMotorcycle } from "../services/api";
 import ConfirmModal from "../components/ConfirmModal";
+import ContactSellerModal from "../components/ContactSellerModal";
+import { contactSeller } from "../services/api";
 
 function MotoDetails() {
   const { id } = useParams();
@@ -16,6 +15,7 @@ function MotoDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     async function loadMotorcycle() {
@@ -48,6 +48,19 @@ function MotoDetails() {
     }
   };
 
+  const handleContactSeller = async (message) => {
+    try {
+      await contactSeller(id, message);
+
+      setShowContactModal(false);
+
+      alert("✅ Messaggio inviato con successo!");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+
   if (loading) {
     return (
       <div className="container mt-5">
@@ -74,7 +87,7 @@ function MotoDetails() {
         <img
           src={
             motorcycle.image ||
-            "https://placehold.co/900x500?text=MyGarage"
+            "https://placehold.co/900x500?text=MotoroHub"
           }
           className="card-img-top"
           alt={`${motorcycle.brand} ${motorcycle.model}`}
@@ -140,7 +153,7 @@ function MotoDetails() {
 
           <hr />
 
-          {isOwner && (
+          {isOwner ? (
             <div className="d-flex gap-3">
 
               <button
@@ -158,6 +171,13 @@ function MotoDetails() {
               </button>
 
             </div>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowContactModal(true)}
+            >
+              📧 Contatta il venditore
+            </button>
           )}
 
         </div>
@@ -171,7 +191,12 @@ function MotoDetails() {
         onConfirm={handleDelete}
         onClose={() => setShowModal(false)}
       />
-
+      <ContactSellerModal
+        show={showContactModal}
+        motorcycle={motorcycle}
+        onClose={() => setShowContactModal(false)}
+        onSend={handleContactSeller}
+      />
     </div>
   );
 }

@@ -17,7 +17,7 @@ function Navbar() {
       <div className="container">
 
         <Link className="navbar-brand fw-bold" to="/">
-          🏍 MyGarage
+          🏍 MotoroHub
         </Link>
 
         <div className="navbar-nav ms-auto">

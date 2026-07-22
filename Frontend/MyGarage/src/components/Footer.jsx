@@ -6,7 +6,7 @@ function Footer() {
 
             <p className="mb-0">
 
-                MyGarage © 2026
+                MotoroHub © 2026
 
             </p>
 

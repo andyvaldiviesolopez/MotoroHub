@@ -210,6 +210,34 @@ const uploadMotorcycleImage = async (req, res) => {
     }
 };
 
+const contactSeller = async (req, res) => {
+
+    try {
+
+        await motorcycleService.contactSeller(
+            req.params.id,
+            req.user.id,
+            req.body.message
+        );
+
+        res.status(200).send({
+            statusCode: 200,
+            message: "Messaggio inviato con successo 📧"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).send({
+            statusCode: 500,
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     createMotorcycle,
     getMotorcycles,
@@ -217,5 +245,6 @@ module.exports = {
     updateMotorcycle,
     deleteMotorcycle,
     getMyMotorcycles,
-    uploadMotorcycleImage
+    uploadMotorcycleImage,
+    contactSeller
 }

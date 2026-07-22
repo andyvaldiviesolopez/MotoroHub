@@ -85,7 +85,7 @@ function Community() {
         <h1>🏍 Community</h1>
 
         <p className="text-muted mb-2">
-          Esplora tutte le moto della community MyGarage
+          Esplora tutte le moto della community MotoroHub
         </p>
 
         <span className="badge bg-dark fs-6">
