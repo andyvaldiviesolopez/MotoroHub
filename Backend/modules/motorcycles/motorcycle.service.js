@@ -93,12 +93,6 @@ const uploadMotorcycleImage = async (id, userId, imageUrl) => {
 };
 
 const contactSeller = async (motorcycleId, buyerId, message) => {
-    
-    if (!motorcycle.isForSale) {
-        return res.status(400).json({
-            message: "Questa moto non è in vendita."
-        });
-    }
 
     if (!message || message.trim() === "") {
         throw new Error("Il messaggio non può essere vuoto");
@@ -111,6 +105,10 @@ const contactSeller = async (motorcycleId, buyerId, message) => {
         throw new Error("Moto non trovata");
     }
 
+    if (!motorcycle.isForSale) {
+        throw new Error("Questa moto non è in vendita");
+    }
+
     const buyer = await User.findById(buyerId);
 
     if (!buyer) {
@@ -120,7 +118,6 @@ const contactSeller = async (motorcycleId, buyerId, message) => {
     if (motorcycle.owner._id.toString() === buyerId) {
         throw new Error("Non puoi contattare te stesso");
     }
-
 
     await sendContactSellerEmail(
         motorcycle.owner,
