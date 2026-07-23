@@ -8,6 +8,7 @@ function SuccessModal({
     title = "Operazione completata",
     message = "L'operazione è stata eseguita con successo.",
     buttonText = "Perfetto",
+    icon = "bi-check-circle-fill"
 }) {
 
     return (
@@ -21,9 +22,7 @@ function SuccessModal({
             <Modal.Body className="success-modal">
 
                 <div className="success-icon">
-
-                    <i className="bi bi-check-circle-fill"></i>
-
+                    <i className={`bi ${icon}`}></i>
                 </div>
 
                 <h2>

@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { getUserById, deleteUser } from "../services/api";
 
 import ConfirmModal from "../components/ConfirmModal";
-
+import SuccessModal from "../components/SuccessModal";
 import "../styles/profile.css";
 
 function Profile() {
@@ -18,6 +18,7 @@ function Profile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
 
   useEffect(() => {
 
@@ -53,14 +54,15 @@ function Profile() {
 
       await deleteUser(user.id);
 
-      logout();
+      console.log("utente eliminato")
 
-      navigate("/");
+      setShowDeleteSuccessModal(true);
+
+      console.log("modal aperto")
 
     } catch (err) {
 
-      alert(err.message);
-
+      console.log(err)
     }
 
   };
@@ -240,6 +242,19 @@ function Profile() {
         message="Sei sicuro di voler eliminare definitivamente il tuo account?"
         onConfirm={handleDelete}
         onClose={() => setShowModal(false)}
+      />
+
+      <SuccessModal
+        show={showDeleteSuccessModal}
+        title="Account eliminato"
+        message="Il tuo garage è stato svuotato e il tuo account è stato eliminato con successo. Grazie per aver fatto parte della community MotoroHub! 🏍️"
+        onClose={() => {
+
+          logout();
+
+          navigate("/");
+
+        }}
       />
 
     </div>

@@ -34,6 +34,13 @@
     font-size: 1.05rem;
 }
 
+.avatar-hint {
+  margin-top: 10px;
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+}
+
 .image-preview-wrapper{
     display: flex;
     justify-content: center;

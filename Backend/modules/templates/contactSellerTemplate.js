@@ -1,3 +1,5 @@
+const emailLayout = require("./emailLayout");
+
 const contactSellerTemplate = (
     seller,
     buyer,
@@ -5,47 +7,101 @@ const contactSellerTemplate = (
     message
 ) => {
 
-    return `
-        <div style="font-family: Arial, sans-serif; line-height:1.6">
+    return emailLayout({
 
-            <h2>Ciao ${seller.firstName}! 👋</h2>
+        title: `Ciao ${seller.firstName}! 👋`,
 
-            <p>
-                <strong>${buyer.firstName} ${buyer.lastName}</strong>
-                è interessato alla tua moto.
-            </p>
+        subtitle: "Hai ricevuto un nuovo messaggio per una delle tue moto.",
 
-            <hr>
-
-            <h3>Moto</h3>
+        body: `
 
             <p>
-                ${motorcycle.brand} ${motorcycle.model}
-                (${motorcycle.year})
+                Un utente della community è interessato al tuo annuncio.
             </p>
 
-            <h3>Messaggio</h3>
+            <table
+                width="100%"
+                cellpadding="12"
+                cellspacing="0"
+                style="
+                    background:#f8f9fa;
+                    border-radius:12px;
+                    margin:25px 0;
+                "
+            >
 
-            <blockquote style="border-left:4px solid #ccc;padding-left:15px;">
+                <tr>
+
+                    <td>
+
+                        <strong>🏍 Moto</strong>
+
+                        <br><br>
+
+                        ${motorcycle.brand} ${motorcycle.model}
+
+                        <br>
+
+                        ${motorcycle.year} • ${motorcycle.color}
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <p>
+
+                <strong>Messaggio ricevuto:</strong>
+
+            </p>
+
+            <div
+                style="
+                    background:#f8f9fa;
+                    padding:20px;
+                    border-left:4px solid #dc3545;
+                    border-radius:10px;
+                    line-height:1.8;
+                    white-space:pre-wrap;
+                "
+            >
+
                 ${message}
-            </blockquote>
 
-            <hr>
+            </div>
 
-            <p>
-                Ti basterà cliccare su <strong>Rispondi</strong> per contattare direttamente l'acquirente.
+            <p style="margin-top:30px;">
+
+                <strong>Mittente</strong>
+
+                <br>
+
+                ${buyer.firstName} ${buyer.lastName}
+
+                <br>
+
+                <a
+                    href="mailto:${buyer.email}"
+                    style="color:#dc3545;text-decoration:none;"
+                >
+
+                    ${buyer.email}
+
+                </a>
+
             </p>
 
             <p>
-                Buona strada! 🏍️
+
+                Puoi rispondere direttamente a questa email:
+                il messaggio arriverà automaticamente al mittente.
+
             </p>
 
-            <p>
-                <strong>Team MotoroHub</strong>
-            </p>
+        `
 
-        </div>
-    `;
+    });
 
 };
 

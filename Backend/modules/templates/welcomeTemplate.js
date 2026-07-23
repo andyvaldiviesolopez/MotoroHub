@@ -1,26 +1,65 @@
+const emailLayout = require("./emailLayout");
+
 const welcomeTemplate = (user) => {
-    return `
-        <h1>Benvenuto ${user.firstName}!</h1>
+
+    return emailLayout({
+
+        title: `Benvenuto ${user.firstName}! 👋`,
+
+        subtitle:
+            "Grazie per esserti registrato su MotoroHub.",
+
+        body: `
 
         <p>
-            Grazie per esserti registrato su <strong>MotoroHub</strong>.
+            Siamo felici di averti nella nostra community.
         </p>
 
-        <p>
-            Da oggi puoi:
+        <table
+            width="100%"
+            cellpadding="12"
+            cellspacing="0"
+            style="
+                background:#f8f9fa;
+                border-radius:12px;
+                margin-top:20px;
+            "
+        >
+
+            <tr>
+
+                <td>🏍 Gestisci il tuo garage</td>
+
+            </tr>
+
+            <tr>
+
+                <td>❤️ Salva le tue moto preferite</td>
+
+            </tr>
+
+            <tr>
+
+                <td>💰 Metti in vendita le tue moto</td>
+
+            </tr>
+
+            <tr>
+
+                <td>🌍 Esplora la community</td>
+
+            </tr>
+
+        </table>
+
+        <p style="margin-top:25px;">
+            Ti auguriamo buon divertimento!
         </p>
 
-        <ul>
-            <li>🏍 Gestire il tuo garage</li>
-            <li>❤️ Salvare le moto preferite</li>
-            <li>💰 Mettere in vendita le tue moto</li>
-            <li>🌍 Esplorare la community</li>
-        </ul>
+        `
 
-        <p>
-            Buona permanenza! 🏍
-        </p>
-    `;
+    });
+
 };
 
 module.exports = welcomeTemplate;

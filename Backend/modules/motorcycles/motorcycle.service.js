@@ -93,6 +93,12 @@ const uploadMotorcycleImage = async (id, userId, imageUrl) => {
 };
 
 const contactSeller = async (motorcycleId, buyerId, message) => {
+    
+    if (!motorcycle.isForSale) {
+        return res.status(400).json({
+            message: "Questa moto non è in vendita."
+        });
+    }
 
     if (!message || message.trim() === "") {
         throw new Error("Il messaggio non può essere vuoto");

@@ -5,7 +5,7 @@ const cloudinary = require("../../config/cloudinary");
 const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: "mygarage",
+        folder: "motorohub",
         allowed_formats: ["jpg", "jpeg", "png", "webp"]
     }
 });

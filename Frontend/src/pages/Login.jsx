@@ -104,6 +104,18 @@ function Login() {
             Registrati
           </Link>
         </p>
+        <div className="text-center mt-3">
+
+          <Link
+            to="/forgot-password"
+            className="forgot-link"
+          >
+
+            Password dimenticata?
+
+          </Link>
+
+        </div>
       </div>
 
     </div>

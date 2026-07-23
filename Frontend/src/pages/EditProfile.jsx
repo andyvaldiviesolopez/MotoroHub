@@ -159,6 +159,11 @@ function EditProfile() {
 
           </div>
 
+          <p className="avatar-hint">
+            <i className="bi bi-pencil-square me-1"></i>
+            Clicca sull'immagine per cambiare il tuo avatar.
+          </p>
+
           {selectedAvatar && (
 
             <div className="alert alert-info mt-4">

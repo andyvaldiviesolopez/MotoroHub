@@ -103,9 +103,16 @@ const changePassword = async (id, body) => {
 };
 
 const deleteUser = async (id) => {
-    const deleteUser = await User.findByIdAndDelete(id)
-    return deleteUser
-}
+
+    await Motorcycle.deleteMany({
+
+        owner: id
+
+    });
+
+    return await User.findByIdAndDelete(id);
+
+};
 
 const getFavorites = async (userId) => {
 

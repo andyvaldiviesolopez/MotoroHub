@@ -15,7 +15,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Community from "./pages/Community";
 import Favorites from "./pages/Favorites";
-
+import ForgotPassword from "./pages/ForgotPassword"
+import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -87,6 +88,14 @@ function App() {
                             <Favorites />
                         </ProtectedRoute>
                     }
+                />
+                <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                />
+                <Route
+                    path="/reset-password/:token"
+                    element={<ResetPassword />}
                 />
             </Routes>
             <Footer />

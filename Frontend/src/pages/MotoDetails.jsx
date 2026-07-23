@@ -233,18 +233,22 @@ function MotoDetails() {
 
           ) : (
 
-            <div className="details-actions">
+            motorcycle.isForSale && (
 
-              <button
-                className="btn btn-danger"
-                onClick={() => setShowContactModal(true)}
-              >
-                <i className="bi bi-envelope-fill me-2"></i>
+              <div className="details-actions">
 
-                Contatta il venditore
-              </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => setShowContactModal(true)}
+                >
+                  <i className="bi bi-envelope-fill me-2"></i>
 
-            </div>
+                  Contatta il venditore
+                </button>
+
+              </div>
+
+            )
 
           )}
 

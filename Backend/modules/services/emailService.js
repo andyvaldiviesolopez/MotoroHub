@@ -1,6 +1,7 @@
 const brevo = require("../../config/brevo");
 const welcomeTemplate = require("../templates/welcomeTemplate");
 const contactSellerTemplate = require("../templates/contactSellerTemplate");
+const resetPasswordTemplate = require("../templates/resetPasswordTemplate");
 
 const sendWelcomeEmail = async (user) => {
     const email = {
@@ -60,7 +61,37 @@ const sendContactSellerEmail = async (
 
 };
 
+const sendResetPasswordEmail = async (user, resetUrl) => {
+
+    const email = {
+
+        sender: {
+            name: process.env.BREVO_SENDER_NAME,
+            email: process.env.BREVO_SENDER_NOREPLY_EMAIL
+        },
+
+        to: [
+            {
+                email: user.email,
+                name: `${user.firstName} ${user.lastName}`
+            }
+        ],
+
+        subject: "🔒 Reimposta la tua password",
+
+        htmlContent: resetPasswordTemplate(
+            user,
+            resetUrl
+        )
+
+    };
+
+    await brevo.transactionalEmails.sendTransacEmail(email);
+
+};
+
 module.exports = {
     sendWelcomeEmail,
-    sendContactSellerEmail
+    sendContactSellerEmail,
+    sendResetPasswordEmail
 };

@@ -1,16 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
-import {
-  getFavorites,
-  addFavorite,
-  removeFavorite,
-} from "../services/api";
+import { getFavorites, addFavorite, removeFavorite, } from "../services/api";
 
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
-
   const { user } = useAuth();
 
   const loadFavorites = async () => {

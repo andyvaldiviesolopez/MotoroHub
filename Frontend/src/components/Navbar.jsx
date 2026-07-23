@@ -14,7 +14,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg motorohub-navba py-3">
+    <nav className="navbar navbar-expand-lg motorohub-navbar">
       <div className="container">
 
         <Link className="navbar-brand motorohub-logo" to="/">

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-
 import "../styles/contactSellerModal.css";
 
 function ContactSellerModal({
@@ -15,27 +14,19 @@ function ContactSellerModal({
     const [validationError, setValidationError] = useState("");
 
     useEffect(() => {
-
         if (show) {
-
             setMessage("");
             setSending(false);
             setValidationError("");
-
         }
-
     }, [show]);
 
     const handleSubmit = async () => {
-
         if (!message.trim()) {
-
             setValidationError(
                 "Inserisci un messaggio prima di inviarlo."
             );
-
             return;
-
         }
 
         try {
@@ -48,7 +39,7 @@ function ContactSellerModal({
         } finally {
 
             setSending(false);
-
+            
         }
 
     };
