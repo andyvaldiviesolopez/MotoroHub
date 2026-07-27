@@ -3,6 +3,7 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const { liveServer } = require("./config/database")
+const errorHandler = require("./modules/middleware/errorHandler");
 
 const PORT = process.env.PORT
 
@@ -18,5 +19,6 @@ server.use(express.json())
 server.use("/", usersRoutes)
 server.use("/auth", authRoutes)
 server.use("/", motorcyclesRoutes)
+server.use(errorHandler)
 
 liveServer(PORT, server)
