@@ -127,11 +127,13 @@ function MotoDetails() {
           <div className="details-owner">
 
             <span>
-
               <i className="bi bi-person-circle me-2"></i>
+              @{motorcycle.owner.username}
+            </span>
 
-              {motorcycle.owner.firstName}
-
+            <span className="details-city">
+              <i className="bi bi-geo-alt me-2"></i>
+              {motorcycle.owner.city || "Città non disponibile"}
             </span>
 
           </div>

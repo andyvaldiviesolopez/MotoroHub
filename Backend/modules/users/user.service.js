@@ -117,7 +117,13 @@ const deleteUser = async (id) => {
 const getFavorites = async (userId) => {
 
     const user = await User.findById(userId)
-        .populate("favorites");
+        .populate({
+            path: "favorites",
+            populate: {
+                path: "owner",
+                select: "username city avatar",
+            },
+        });
 
     if (!user) {
         throw new Error("Utente non trovato");

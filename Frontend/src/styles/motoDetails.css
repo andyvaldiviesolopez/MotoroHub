@@ -52,19 +52,31 @@
 
 .details-owner {
     display: inline-flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: .5rem;
     background: #fafafa;
     padding: .75rem 1.2rem;
-    border-radius: 999px;
+    border-radius: 16px;
     color: var(--text-secondary);
     font-weight: 500;
     margin-bottom: 2rem;
 }
 
+.details-owner span {
+    display: flex;
+    align-items: center;
+}
+
 .details-owner i {
     color: var(--primary);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.details-city {
+    font-size: .95rem;
+    color: #6c757d;
 }
 
 .details-specs {
@@ -83,7 +95,7 @@
 
 .details-specs div:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
 }
 
 .details-specs span {
