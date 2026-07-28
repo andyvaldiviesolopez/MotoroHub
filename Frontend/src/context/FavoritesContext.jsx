@@ -6,14 +6,22 @@ const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const { user } = useAuth();
 
   const loadFavorites = async () => {
     try {
+      setLoading(true);
+
       const data = await getFavorites();
       setFavorites(data);
+
     } catch (error) {
       console.error(error);
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -22,6 +30,7 @@ export const FavoritesProvider = ({ children }) => {
       loadFavorites();
     } else {
       setFavorites([]);
+      setLoading(false);
     }
   }, [user]);
 
@@ -53,6 +62,7 @@ export const FavoritesProvider = ({ children }) => {
     <FavoritesContext.Provider
       value={{
         favorites,
+        loading,
         isFavorite,
         toggleFavorite,
       }}

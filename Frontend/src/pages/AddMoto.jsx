@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 import { createMotorcycle } from "../services/api";
 
 import brands from "../data/brands";
@@ -12,7 +13,6 @@ function AddMoto() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-
     brand: "",
     model: "",
     year: "",
@@ -23,13 +23,13 @@ function AddMoto() {
     description: "",
     isForSale: false,
     price: "",
-
   });
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
 
@@ -58,6 +58,9 @@ function AddMoto() {
   const handleSubmit = async (e) => {
 
     e.preventDefault();
+
+    setError("");
+    setLoading(true);
 
     try {
 
@@ -109,6 +112,10 @@ function AddMoto() {
 
       setError(err.message);
 
+    } finally {
+
+      setLoading(false);
+
     }
 
   };
@@ -124,27 +131,19 @@ function AddMoto() {
           <div className="add-header">
 
             <h1>
-
               Aggiungi una <span>Moto</span>
-
             </h1>
 
             <p>
-
               Condividi la tua moto con tutta la community MotoroHub.
-
             </p>
 
           </div>
 
           {error && (
-
             <div className="alert alert-danger">
-
               {error}
-
             </div>
-
           )}
 
           <form onSubmit={handleSubmit}>
@@ -166,9 +165,7 @@ function AddMoto() {
                   <i className="bi bi-image"></i>
 
                   <p>
-
                     Nessuna immagine selezionata
-
                   </p>
 
                 </div>
@@ -178,9 +175,7 @@ function AddMoto() {
             </div>
 
             <h4 className="section-title">
-
               Informazioni principali
-
             </h4>
 
             <div className="row">
@@ -188,14 +183,13 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Marca
-
                 </label>
 
                 <select
                   className="form-select"
                   value={formData.brand}
+                  disabled={loading}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -206,9 +200,7 @@ function AddMoto() {
                 >
 
                   <option value="">
-
                     Seleziona una marca
-
                   </option>
 
                   {brands.map((brand) => (
@@ -217,9 +209,7 @@ function AddMoto() {
                       key={brand}
                       value={brand}
                     >
-
                       {brand}
-
                     </option>
 
                   ))}
@@ -231,9 +221,7 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Modello
-
                 </label>
 
                 <select
@@ -241,15 +229,13 @@ function AddMoto() {
                   name="model"
                   value={formData.model}
                   onChange={handleChange}
-                  disabled={!formData.brand}
+                  disabled={!formData.brand || loading}
                 >
 
                   <option value="">
-
                     {formData.brand
                       ? "Seleziona un modello"
                       : "Prima scegli una marca"}
-
                   </option>
 
                   {formData.brand &&
@@ -259,9 +245,7 @@ function AddMoto() {
                         key={model}
                         value={model}
                       >
-
                         {model}
-
                       </option>
 
                     ))}
@@ -269,12 +253,11 @@ function AddMoto() {
                 </select>
 
               </div>
+
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Anno
-
                 </label>
 
                 <input
@@ -283,6 +266,7 @@ function AddMoto() {
                   name="year"
                   value={formData.year}
                   onChange={handleChange}
+                  disabled={loading}
                   required
                 />
 
@@ -291,9 +275,7 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Cilindrata (cc)
-
                 </label>
 
                 <input
@@ -302,6 +284,7 @@ function AddMoto() {
                   name="cilindrata"
                   value={formData.cilindrata}
                   onChange={handleChange}
+                  disabled={loading}
                   required
                 />
 
@@ -310,9 +293,7 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Potenza (CV)
-
                 </label>
 
                 <input
@@ -321,6 +302,7 @@ function AddMoto() {
                   name="power"
                   value={formData.power}
                   onChange={handleChange}
+                  disabled={loading}
                 />
 
               </div>
@@ -328,9 +310,7 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Chilometri
-
                 </label>
 
                 <input
@@ -339,6 +319,7 @@ function AddMoto() {
                   name="kilometers"
                   value={formData.kilometers}
                   onChange={handleChange}
+                  disabled={loading}
                 />
 
               </div>
@@ -346,9 +327,7 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Colore
-
                 </label>
 
                 <input
@@ -356,6 +335,7 @@ function AddMoto() {
                   name="color"
                   value={formData.color}
                   onChange={handleChange}
+                  disabled={loading}
                 />
 
               </div>
@@ -363,9 +343,7 @@ function AddMoto() {
               <div className="col-md-6 mb-4">
 
                 <label className="form-label">
-
                   Immagine
-
                 </label>
 
                 <input
@@ -373,6 +351,7 @@ function AddMoto() {
                   className="form-control"
                   accept="image/*"
                   onChange={handleImageChange}
+                  disabled={loading}
                 />
 
               </div>
@@ -380,17 +359,13 @@ function AddMoto() {
             </div>
 
             <h4 className="section-title">
-
               Informazioni aggiuntive
-
             </h4>
 
             <div className="mb-4">
 
               <label className="form-label">
-
                 Descrizione
-
               </label>
 
               <textarea
@@ -399,6 +374,7 @@ function AddMoto() {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                disabled={loading}
               />
 
             </div>
@@ -413,6 +389,7 @@ function AddMoto() {
                   name="isForSale"
                   checked={formData.isForSale}
                   onChange={handleChange}
+                  disabled={loading}
                   id="saleCheck"
                 />
 
@@ -420,9 +397,7 @@ function AddMoto() {
                   className="form-check-label"
                   htmlFor="saleCheck"
                 >
-
                   Metti questa moto in vendita
-
                 </label>
 
               </div>
@@ -432,9 +407,7 @@ function AddMoto() {
                 <div className="mt-4">
 
                   <label className="form-label">
-
                     Prezzo (€)
-
                   </label>
 
                   <input
@@ -443,6 +416,7 @@ function AddMoto() {
                     name="price"
                     value={formData.price}
                     onChange={handleChange}
+                    disabled={loading}
                     required
                   />
 
@@ -455,12 +429,23 @@ function AddMoto() {
             <button
               type="submit"
               className="btn btn-danger add-button"
+              disabled={loading}
             >
-
-              <i className="bi bi-plus-circle me-2"></i>
-
-              Salva Moto
-
+              {loading ? (
+                <>
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    className="me-2"
+                  />
+                  Salvataggio...
+                </>
+              ) : (
+                <>
+                  <i className="bi bi-plus-circle me-2"></i>
+                  Salva Moto
+                </>
+              )}
             </button>
 
           </form>

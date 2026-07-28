@@ -3,6 +3,7 @@ import { getMotorcycles } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import CommunityCard from "../components/CommunityCard";
 import brands from "../data/brands";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "../styles/community.css"
 
 function Community() {
@@ -62,9 +63,10 @@ function Community() {
 
   if (loading) {
     return (
-      <div className="container py-5">
-        <h3>Caricamento moto...</h3>
-      </div>
+      <LoadingSpinner
+        text="Sto caricando la community..."
+        fullScreen
+      />
     );
   }
 

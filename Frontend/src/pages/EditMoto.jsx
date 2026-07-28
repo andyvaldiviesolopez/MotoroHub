@@ -6,6 +6,9 @@ import motorcycleData from "../data/motorcycleData";
 
 import { getMotorcycleById, updateMotorcycle, uploadMotorcycleImage, } from "../services/api";
 
+import Spinner from "react-bootstrap/Spinner";
+import LoadingSpinner from "../components/LoadingSpinner";
+
 import "../styles/form.css";
 
 function EditMoto() {
@@ -33,6 +36,8 @@ function EditMoto() {
     });
 
     const [error, setError] = useState("");
+    const [pageLoading, setPageLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
 
@@ -43,7 +48,6 @@ function EditMoto() {
                 const motorcycle = await getMotorcycleById(id);
 
                 setFormData({
-
                     brand: motorcycle.brand || "",
                     model: motorcycle.model || "",
                     year: motorcycle.year || "",
@@ -55,7 +59,6 @@ function EditMoto() {
                     description: motorcycle.description || "",
                     isForSale: motorcycle.isForSale || false,
                     price: motorcycle.price || "",
-
                 });
 
                 setPreview(motorcycle.image || "");
@@ -63,6 +66,10 @@ function EditMoto() {
             } catch (err) {
 
                 setError(err.message);
+
+            } finally {
+
+                setPageLoading(false);
 
             }
 
@@ -103,6 +110,9 @@ function EditMoto() {
 
         e.preventDefault();
 
+        setError("");
+        setLoading(true);
+
         try {
 
             const motorcycle = {
@@ -140,9 +150,20 @@ function EditMoto() {
 
             setError(err.message);
 
+        } finally {
+            setLoading(false);
         }
 
     };
+
+    if (pageLoading) {
+        return (
+            <LoadingSpinner
+                text="Sto caricando la moto..."
+                fullScreen
+            />
+        );
+    }
 
     return (
 
@@ -317,6 +338,7 @@ function EditMoto() {
                                     name="year"
                                     value={formData.year}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
 
@@ -336,6 +358,7 @@ function EditMoto() {
                                     name="cilindrata"
                                     value={formData.cilindrata}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     required
                                 />
 
@@ -355,6 +378,7 @@ function EditMoto() {
                                     name="power"
                                     value={formData.power}
                                     onChange={handleChange}
+                                    disabled={loading}
                                 />
 
                             </div>
@@ -373,6 +397,7 @@ function EditMoto() {
                                     name="kilometers"
                                     value={formData.kilometers}
                                     onChange={handleChange}
+                                    disabled={loading}
                                 />
 
                             </div>
@@ -390,6 +415,7 @@ function EditMoto() {
                                     name="color"
                                     value={formData.color}
                                     onChange={handleChange}
+                                    disabled={loading}
                                 />
 
                             </div>
@@ -407,6 +433,7 @@ function EditMoto() {
                                     className="form-control"
                                     accept="image/*"
                                     onChange={handleImageChange}
+                                    disabled={loading}
                                 />
 
                             </div>
@@ -433,6 +460,7 @@ function EditMoto() {
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
+                                disabled={loading}
                             />
 
                         </div>
@@ -446,6 +474,7 @@ function EditMoto() {
                                     name="isForSale"
                                     checked={formData.isForSale}
                                     onChange={handleChange}
+                                    disabled={loading}
                                     id="saleCheck"
                                 />
 
@@ -476,6 +505,7 @@ function EditMoto() {
                                         name="price"
                                         value={formData.price}
                                         onChange={handleChange}
+                                        disabled={loading}
                                         required
                                     />
 
@@ -490,17 +520,29 @@ function EditMoto() {
                             <button
                                 type="submit"
                                 className="btn btn-danger add-button"
+                                disabled={loading}
                             >
-
-                                <i className="bi bi-check-circle me-2"></i>
-
-                                Salva modifiche
-
+                                {loading ? (
+                                    <>
+                                        <Spinner
+                                            animation="border"
+                                            size="sm"
+                                            className="me-2"
+                                        />
+                                        Salvataggio...
+                                    </>
+                                ) : (
+                                    <>
+                                        <i className="bi bi-check-circle me-2"></i>
+                                        Salva modifiche
+                                    </>
+                                )}
                             </button>
 
                             <button
                                 type="button"
                                 className="btn btn-outline-secondary add-button"
+                                disabled={loading}
                                 onClick={() => navigate("/garage")}
                             >
 

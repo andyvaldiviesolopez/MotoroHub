@@ -1,12 +1,22 @@
 import { Link } from "react-router-dom";
 import CommunityCard from "../components/CommunityCard";
 import { useFavorites } from "../context/FavoritesContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 import "../styles/favorites.css";
 
 function Favorites() {
 
-    const { favorites } = useFavorites();
+    const { favorites, loading } = useFavorites();
+
+    if (loading) {
+        return (
+            <LoadingSpinner
+                text="Sto caricando i tuoi preferiti..."
+                fullScreen
+            />
+        );
+    }
 
     return (
 

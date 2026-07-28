@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import Spinner from "react-bootstrap/Spinner";
 import "../styles/login.css"
 
 function Login() {
@@ -14,6 +15,7 @@ function Login() {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,6 +28,7 @@ function Login() {
     e.preventDefault();
 
     setError("");
+    setLoading(true);
 
     try {
       const data = await loginUser(formData);
@@ -35,6 +38,8 @@ function Login() {
       navigate("/garage");
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,8 +98,22 @@ function Login() {
 
           </div>
 
-          <button className="btn btn-danger w-100 login-button">
-            Accedi
+          <button
+            className="btn btn-danger w-100 login-button"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Spinner
+                  animation="border"
+                  size="sm"
+                  className="me-2"
+                />
+                Accesso...
+              </>
+            ) : (
+              "Accedi"
+            )}
           </button>
 
         </form>

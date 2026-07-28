@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/api";
+import Spinner from "react-bootstrap/Spinner";
 import "../styles/register.css";
 
 function Register() {
@@ -21,6 +22,7 @@ function Register() {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
 
@@ -49,6 +51,8 @@ function Register() {
     e.preventDefault();
 
     setError("");
+    setSuccess("");
+    setLoading(true);
 
     try {
 
@@ -73,6 +77,10 @@ function Register() {
     } catch (err) {
 
       setError(err.message);
+
+    } finally {
+
+      setLoading(false);
 
     }
 
@@ -139,6 +147,7 @@ function Register() {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
 
@@ -156,6 +165,7 @@ function Register() {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
 
@@ -173,6 +183,7 @@ function Register() {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
 
@@ -190,6 +201,7 @@ function Register() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
 
@@ -207,6 +219,7 @@ function Register() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
 
@@ -224,6 +237,7 @@ function Register() {
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
+                disabled={loading}
               />
 
             </div>
@@ -239,6 +253,7 @@ function Register() {
                 className="form-control"
                 accept="image/*"
                 onChange={handleAvatarChange}
+                disabled={loading}
               />
 
             </div>
@@ -249,8 +264,20 @@ function Register() {
             <button
               type="submit"
               className="btn btn-danger w-100 register-button"
+              disabled={loading}
             >
-              Registrati
+              {loading ? (
+                <>
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    className="me-2"
+                  />
+                  Registrazione...
+                </>
+              ) : (
+                "Registrati"
+              )}
             </button>
 
           </div>

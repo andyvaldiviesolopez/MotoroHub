@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMyMotorcycles } from "../services/api";
 import MotoCard from "../components/MotoCard";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "../styles/garage.css";
 
 function Garage() {
@@ -26,9 +27,10 @@ function Garage() {
 
     if (loading) {
         return (
-            <div className="container py-5">
-                <h3 className="text-center">Caricamento...</h3>
-            </div>
+            <LoadingSpinner
+                text="Sto caricando il tuo garage..."
+                fullScreen
+            />
         );
     }
 

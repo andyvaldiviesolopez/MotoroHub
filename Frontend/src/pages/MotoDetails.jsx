@@ -5,6 +5,7 @@ import { getMotorcycleById, deleteMotorcycle, contactSeller } from "../services/
 import ConfirmModal from "../components/ConfirmModal";
 import ContactSellerModal from "../components/ContactSellerModal";
 import SuccessModal from "../components/SuccessModal";
+import LoadingSpinner from "../components/LoadingSpinner";
 import "../styles/motoDetails.css";
 
 function MotoDetails() {
@@ -64,9 +65,10 @@ function MotoDetails() {
   };
   if (loading) {
     return (
-      <div className="container py-5">
-        <h3>Caricamento moto...</h3>
-      </div>
+      <LoadingSpinner
+        text="Sto caricando la moto..."
+        fullScreen
+      />
     );
   }
 
